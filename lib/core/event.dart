@@ -8,9 +8,12 @@ class Event {
   });
 
   factory Event.from(Map<String, dynamic> json) {
+    final id = json['id'].toString();
+    final date = DateTime.tryParse(json['date']);
+
     return Event(
-      id: json['id'],
-      date: DateTime.parse(json['date']),
+      id: id,
+      date: date ?? DateTime.now(), // change this logic to make date required
     );
   }
 }
