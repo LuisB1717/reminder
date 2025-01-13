@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/screens/entity_screen.dart';
 import 'package:reminder/screens/event_screen.dart';
+import 'package:reminder/widgets/menu.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,69 +11,51 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: HomePageView(
-        children: [
-          EventScreen(),
-          EntityScreen(),
-        ],
-      ),
-    );
-  }
-}
-
-class HomePageView extends StatefulWidget {
-  final List<Widget> children;
-
-  const HomePageView({super.key, required this.children});
-
-  @override
-  State<HomePageView> createState() => _HomePageViewState();
-}
-
-class _HomePageViewState extends State<HomePageView>
-    with TickerProviderStateMixin {
-  late PageController _pageViewController;
-  late TabController _tabController;
-
-  int pageIndex = 0;
+  int _selectedIndex = 0;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    _pageViewController = PageController();
-    _tabController = TabController(length: 3, vsync: this);
-
-    pageIndex;
+    _pageController = PageController();
   }
 
   @override
   void dispose() {
+    _pageController.dispose();
     super.dispose();
-    _pageViewController.dispose();
-    _tabController.dispose();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        PageView(
-          controller: _pageViewController,
-          onPageChanged: _handlePageViewChanged,
-          children: widget.children,
-        ),
-      ],
+    return Scaffold(
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        children: const [
+          EventScreen(),
+          EntityScreen(),
+        ],
+      ),
+      bottomNavigationBar: Menu(
+        selectedIndex: _selectedIndex,
+        onItemTapped: _onItemTapped,
+      ),
     );
-  }
-
-  void _handlePageViewChanged(int currentPageIndex) {
-    _tabController.index = currentPageIndex;
-    setState(() {
-      pageIndex = currentPageIndex;
-    });
   }
 }
