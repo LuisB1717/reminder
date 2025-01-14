@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder/core/event.dart';
 import 'package:reminder/resources/colors.dart';
-import 'package:reminder/resources/font.dart';
 import 'package:reminder/resources/strings.dart';
 
 class EventCard extends StatelessWidget {
@@ -23,9 +22,10 @@ class EventCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Font(event.id, FontType.title),
-          Font(dateFormat, FontType.subtitle),
-          Font(Strings.address, FontType.adress),
+          Text(event.id,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+          Text(dateFormat, style: TextStyle(fontSize: 12)),
+          Text(Strings.address, style: TextStyle(fontSize: 12)),
         ],
       ),
     );

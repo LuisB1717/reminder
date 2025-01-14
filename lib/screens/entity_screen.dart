@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/resources/colors.dart';
-import 'package:reminder/resources/font.dart';
 import 'package:reminder/resources/strings.dart';
 
 class EntityScreen extends StatefulWidget {
@@ -26,13 +25,19 @@ class _EntityScreenState extends State<EntityScreen> {
                 shape: BoxShape.circle,
               ),
               child: IconButton(
-                  iconSize: 24, onPressed: () {}, icon: Icon(Icons.add)),
+                iconSize: 24,
+                onPressed: () {},
+                icon: Icon(Icons.add),
+              ),
             ),
           ),
         ],
         title: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Font(Strings.entities, FontType.bar),
+          child: Text(
+            Strings.entities,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ),
         backgroundColor: AppColors.background,
       ),

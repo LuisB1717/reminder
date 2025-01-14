@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reminder/api/event.dart';
 import 'package:reminder/core/event.dart';
 import 'package:reminder/widgets/event_card.dart';
-import 'package:reminder/resources/colors.dart';
 import 'package:reminder/resources/strings.dart';
-import 'package:reminder/resources/font.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({super.key});
@@ -18,10 +16,12 @@ class _EventScreenState extends State<EventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.background,
         title: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Font(Strings.reminders, FontType.bar),
+          child: Text(
+            Strings.reminders,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
       body: FutureBuilder(
@@ -59,7 +59,12 @@ class EventList extends StatelessWidget {
                   horizontal: 26.0,
                   vertical: 8.0,
                 ),
-                child: Font(_toDayName(currentEvent.date), FontType.subtitle),
+                child: Text(
+                  _toDayName(
+                    currentEvent.date,
+                  ),
+                  style: TextStyle(fontSize: 14),
+                ),
               ),
             EventCard(event: currentEvent),
           ],
