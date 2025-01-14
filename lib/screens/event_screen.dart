@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:reminder/api/event.dart';
 import 'package:reminder/core/event.dart';
 import 'package:reminder/widgets/event_card.dart';
+import 'package:reminder/resources/colors.dart';
+import 'package:reminder/resources/strings.dart';
+import 'package:reminder/resources/font.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({super.key});
@@ -15,7 +18,11 @@ class _EventScreenState extends State<EventScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Próximos eventos'),
+        backgroundColor: AppColors.background,
+        title: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Font(Strings.reminders, FontType.bar),
+        ),
       ),
       body: FutureBuilder(
         future: getAllEvents(),
@@ -49,12 +56,12 @@ class EventList extends StatelessWidget {
             if (currentEvent.date.day != previousEvent?.date.day)
               Container(
                 margin: const EdgeInsets.symmetric(
-                  horizontal: 24.0,
+                  horizontal: 26.0,
                   vertical: 8.0,
                 ),
-                child: Text(_toDayName(currentEvent.date)),
+                child: Font(_toDayName(currentEvent.date), FontType.subtitle),
               ),
-            EventCard(event: events[index]),
+            EventCard(event: currentEvent),
           ],
         );
       },
@@ -69,7 +76,7 @@ _toDayName(DateTime date) {
   final now = DateTime.now();
   final difference = date.difference(now).inDays;
 
-  if (difference == 0) return 'Hoy';
-  if (difference == 1) return 'Mañana';
+  if (difference == 0) return Strings.today;
+  if (difference == 1) return Strings.tomorrow;
   return 'En $difference dias';
 }

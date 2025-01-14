@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reminder/pages/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:reminder/resources/colors.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,10 +24,7 @@ class Reminder extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Recordatorios',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
-        useMaterial3: true,
-      ),
+      theme: ThemeData(scaffoldBackgroundColor: AppColors.background),
       home: const HomePage(),
     );
   }
