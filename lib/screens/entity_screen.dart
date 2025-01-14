@@ -13,19 +13,21 @@ class _EntityScreenState extends State<EntityScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.filter_list_rounded),
+          Container(
+            height: 40.0,
+            width: 40.0,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(239, 239, 239, 239),
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+                iconSize: 24, onPressed: () {}, icon: Icon(Icons.add)),
           ),
         ],
         title: Text('Entidades'),
       ),
       body: Center(
         child: Text('Entidades'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {},
       ),
     );
   }
