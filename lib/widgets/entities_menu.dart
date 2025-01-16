@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reminder/resources/colors.dart';
 
 class EntitiesMenu extends StatelessWidget {
   const EntitiesMenu({super.key});
@@ -12,14 +13,14 @@ class EntitiesMenu extends StatelessWidget {
         children: [
           IconButton(
             icon: Icon(Icons.person),
-            color: Color.fromARGB(93, 17, 17, 17),
+            color: AppColors.iconButton,
             iconSize: 20,
             onPressed: () {},
           ),
           SizedBox(width: 20),
           IconButton(
             icon: Icon(Icons.business_center_outlined),
-            color: Color.fromARGB(93, 17, 17, 17),
+            color: AppColors.iconButton,
             iconSize: 20,
             onPressed: () {},
           ),
