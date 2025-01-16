@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/resources/colors.dart';
 import 'package:reminder/resources/strings.dart';
+import 'package:reminder/screens/entity_form_screen.dart';
 
 class EntityScreen extends StatefulWidget {
   const EntityScreen({super.key});
@@ -26,7 +27,12 @@ class _EntityScreenState extends State<EntityScreen> {
               ),
               child: IconButton(
                 iconSize: 24,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EntityFormScreen()),
+                  );
+                },
                 icon: Icon(Icons.add),
               ),
             ),
