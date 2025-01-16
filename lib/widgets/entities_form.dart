@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reminder/resources/strings.dart';
 
 class FormEntity extends StatefulWidget {
   const FormEntity({super.key});
@@ -9,12 +10,12 @@ class FormEntity extends StatefulWidget {
 
 class _FormEntityState extends State<FormEntity> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nombreController = TextEditingController();
-  final TextEditingController _telefonoController = TextEditingController();
-  final TextEditingController _direccionController = TextEditingController();
-  String? _distrito;
-  String? _caserio;
-  DateTime? _fechaSeleccionada;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _adressController = TextEditingController();
+  String? _district;
+  String? _town;
+  DateTime? _dateSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -26,31 +27,31 @@ class _FormEntityState extends State<FormEntity> {
           shrinkWrap: true,
           children: [
             TextFormField(
-              controller: _nombreController,
+              controller: _nameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none),
-                hintText: 'Nombre',
+                hintText: Strings.name,
                 filled: true,
                 fillColor: const Color(0xFFEFEFEF),
                 suffixIcon: Icon(Icons.person_2),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese un nombre';
+                  return Strings.advertName;
                 }
                 return null;
               },
             ),
             SizedBox(height: 10),
             TextFormField(
-              controller: _telefonoController,
+              controller: _phoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none),
-                hintText: 'Teléfono',
+                hintText: Strings.phone,
                 filled: true,
                 fillColor: const Color(0xFFEFEFEF),
                 suffixIcon: Icon(Icons.phone_android),
@@ -58,26 +59,26 @@ class _FormEntityState extends State<FormEntity> {
               keyboardType: TextInputType.phone,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese un teléfono';
+                  return Strings.advertPhone;
                 }
                 return null;
               },
             ),
             SizedBox(height: 10),
             TextFormField(
-              controller: _direccionController,
+              controller: _adressController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none),
-                hintText: 'Dirección',
+                hintText: Strings.address,
                 filled: true,
                 fillColor: const Color(0xFFEFEFEF),
                 suffixIcon: Icon(Icons.location_on_outlined),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Por favor ingrese una dirección';
+                  return Strings.advertAdress;
                 }
                 return null;
               },
@@ -89,15 +90,15 @@ class _FormEntityState extends State<FormEntity> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none),
-                hintText: 'Seleccionar distrito',
+                hintText: Strings.selectDistrict,
                 filled: true,
                 fillColor: const Color(0xFFEFEFEF),
               ),
-              items: ['Distrito 1', 'Distrito 2', 'Distrito 3']
-                  .map((distrito) => DropdownMenuItem(
-                        value: distrito,
+              items: ['Distrito A', 'Distrito B', 'Distrito C']
+                  .map((district) => DropdownMenuItem(
+                        value: district,
                         child: Text(
-                          distrito,
+                          district,
                           style: TextStyle(
                             fontSize: 14,
                           ),
@@ -106,7 +107,7 @@ class _FormEntityState extends State<FormEntity> {
                   .toList(),
               onChanged: (value) {
                 setState(() {
-                  _distrito = value;
+                  _district = value;
                 });
               },
             ),
@@ -116,7 +117,7 @@ class _FormEntityState extends State<FormEntity> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none),
-                hintText: 'Seleccionar caserío',
+                hintText: Strings.selectTown,
                 filled: true,
                 fillColor: const Color(0xFFEFEFEF),
               ),
@@ -135,7 +136,7 @@ class _FormEntityState extends State<FormEntity> {
                   .toList(),
               onChanged: (value) {
                 setState(() {
-                  _caserio = value;
+                  _town = value;
                 });
               },
             ),
@@ -145,7 +146,7 @@ class _FormEntityState extends State<FormEntity> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none),
-                hintText: 'Fecha',
+                hintText: Strings.date,
                 filled: true,
                 fillColor: const Color(0xFFEFEFEF),
                 suffixIcon: Icon(Icons.calendar_month),
@@ -160,13 +161,13 @@ class _FormEntityState extends State<FormEntity> {
                 );
                 if (pickedDate != null) {
                   setState(() {
-                    _fechaSeleccionada = pickedDate;
+                    _dateSelect = pickedDate;
                   });
                 }
               },
               controller: TextEditingController(
-                text: _fechaSeleccionada != null
-                    ? _fechaSeleccionada!.toLocal().toString().split(' ')[0]
+                text: _dateSelect != null
+                    ? _dateSelect!.toLocal().toString().split(' ')[0]
                     : '',
               ),
             ),

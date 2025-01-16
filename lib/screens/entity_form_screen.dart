@@ -8,48 +8,44 @@ class EntityFormScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 20.0),
+      appBar: AppBar(
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 20.0),
+          child: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ),
+        title: Text(
+          Strings.addEntity,
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
             child: IconButton(
-              icon: const Icon(Icons.close),
+              icon: const Icon(
+                Icons.check,
+              ),
               onPressed: () {
-                Navigator.of(context).pop();
+                _showSaveDialog(context);
               },
             ),
           ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                Strings.addEntity,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.check,
-                ),
-                onPressed: () {
-                  _showSaveDialog(context);
-                },
-              ),
-            ),
-          ],
-        ),
-        body: Column(
-          children: [
-            EntitiesFormPage(),
-          ],
-        ));
+        ],
+      ),
+      body: Column(
+        children: [
+          EntitiesFormPage(),
+        ],
+      ),
+    );
   }
 
   void _showSaveDialog(BuildContext context) {
@@ -57,22 +53,21 @@ class EntityFormScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirmar', textAlign: TextAlign.center),
-          content: const Text('¿Desea agregar esta entidad?',
-              textAlign: TextAlign.center),
+          title: const Text(Strings.confirm, textAlign: TextAlign.center),
+          content: const Text(Strings.queEnt, textAlign: TextAlign.center),
           actions: <Widget>[
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    child: const Text('Cancelar'),
+                    child: const Text(Strings.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: const Text('Guardar'),
+                    child: const Text(Strings.save),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },

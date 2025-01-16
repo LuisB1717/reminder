@@ -7,6 +7,10 @@ class Strings {
   static const String entities = 'Entidades';
   static const String addEntity = 'Agregar Entidad';
   static const String fullName = 'Nombre completo';
+  static const String name = 'Nombre';
+  static const String advertName = 'Por favor ingrese un nombre';
+  static const String advertPhone = 'Por favor ingrese un teléfono';
+  static const String advertAdress = 'Por favor ingrese una dirección';
   static const String address = 'Dirección';
   static const String addressHint = 'Av Los Incas # 123';
   static const String phone = 'Teléfono';
@@ -14,11 +18,16 @@ class Strings {
   static const String date = 'Fecha';
   static const String dateHint = 'dd/mm/aaaa';
   static const String selectDistrict = 'Seleccionar distrito';
-  static const String selectCas = 'Seleccionar caserio';
+  static const String district = 'Distrito';
+  static const String selectTown = 'Seleccionar caserio';
+  static const String town = 'Caserio';
   static const String done = 'Listo';
   static const String save = 'Guardar';
   static const String today = 'Hoy';
   static const String tomorrow = 'Mañana';
   static const String ind = 'En';
   static const String days = 'dias';
+  static const String confirm = 'Confirmar';
+  static const String cancel = 'Cancelar';
+  static const String queEnt = '¿Desea agregar esta entidad?';
 }
