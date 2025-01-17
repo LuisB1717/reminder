@@ -2,29 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:reminder/resources/colors.dart';
 
 class EntitiesMenu extends StatelessWidget {
-  const EntitiesMenu({super.key});
+  final int selectedIndex;
+  final Function(int) onItemTapped;
+  final BoxDecoration? decoration;
+
+  const EntitiesMenu({
+    super.key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+    this.decoration,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          IconButton(
-            icon: Icon(Icons.person),
-            color: AppColors.iconButton,
-            iconSize: 20,
-            onPressed: () {},
-          ),
-          SizedBox(width: 20),
-          IconButton(
-            icon: Icon(Icons.business_center_outlined),
-            color: AppColors.iconButton,
-            iconSize: 20,
-            onPressed: () {},
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 120,
+        vertical: 12,
+      ),
+      child: Container(
+        height: 60,
+        decoration: decoration,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildMenuItem(Icons.person_outline, 0),
+            _buildMenuItem(Icons.business_outlined, 1),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(IconData icon, int index) {
+    return GestureDetector(
+      onTap: () => onItemTapped(index),
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color:
+              selectedIndex == index ? AppColors.box : AppColors.transparency,
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          size: 24,
+          color: AppColors.border,
+        ),
       ),
     );
   }
