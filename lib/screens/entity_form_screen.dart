@@ -40,11 +40,7 @@ class EntityFormScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          EntitiesFormPage(),
-        ],
-      ),
+      body: EntitiesFormPage(),
     );
   }
 
