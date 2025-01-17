@@ -24,7 +24,7 @@ class Reminder extends StatelessWidget {
     return MaterialApp(
       title: 'Recordatorios',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightGreen),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       home: const HomePage(),
