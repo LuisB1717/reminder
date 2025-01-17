@@ -38,11 +38,8 @@ class _EntitiesFormPageState extends State<EntitiesFormPage> {
         EntitiesMenu(
           selectedIndex: _selectedIndex,
           onItemTapped: onItemTapped,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: BorderRadius.circular(12.0),
-          ),
         ),
+        SizedBox(height: 12),
         Expanded(
           child: PageView(
             controller: _pageFormController,
