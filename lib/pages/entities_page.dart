@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/widgets/entities_form.dart';
-import 'package:reminder/widgets/entities_menu.dart';
+import 'package:reminder/widgets/menu.dart';
 
 class EntitiesFormPage extends StatefulWidget {
   const EntitiesFormPage({super.key});
@@ -35,9 +35,13 @@ class _EntitiesFormPageState extends State<EntitiesFormPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        EntitiesMenu(
+        Menu(
           selectedIndex: _selectedIndex,
           onItemTapped: onItemTapped,
+          icons: const [
+            Icons.person_outlined,
+            Icons.business_center_outlined,
+          ],
         ),
         SizedBox(height: 12),
         Expanded(
