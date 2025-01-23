@@ -75,8 +75,7 @@ class _CustomFilterState extends State<CustomFilter> {
                         setState(() {
                           selectedFilters = [value!];
                         });
-
-                        Navigator.of(context).pop(selectedFilters);
+                        Navigator.of(context).pop(value);
                       },
                     );
                   },

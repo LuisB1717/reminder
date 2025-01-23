@@ -10,6 +10,7 @@ import 'package:reminder/resources/strings.dart';
 import 'package:reminder/screens/entity_form_screen.dart';
 import 'package:reminder/widgets/custom_filter.dart';
 import 'package:reminder/widgets/filter_button.dart';
+import 'package:reminder/widgets/search_field.dart';
 
 class EntityScreen extends StatefulWidget {
   const EntityScreen({super.key});
@@ -19,11 +20,13 @@ class EntityScreen extends StatefulWidget {
 }
 
 class _EntityScreenState extends State<EntityScreen> {
+  TextEditingController searchController = TextEditingController();
   List<District> districts = [];
   List<Town> towns = [];
   String selectedDistrict = "";
   List<String> filtersTown = [];
   List<Entity> entities = [];
+  List<Entity> filteredEntities = [];
 
   @override
   void initState() {
@@ -53,6 +56,7 @@ class _EntityScreenState extends State<EntityScreen> {
     if (mounted) {
       setState(() {
         entities = fetchedEntities;
+        filteredEntities = fetchedEntities;
       });
     }
   }
@@ -113,6 +117,19 @@ class _EntityScreenState extends State<EntityScreen> {
     });
   }
 
+  void _onSearchChanged(String value) {
+    setState(() {
+      if (value.isNotEmpty) {
+        filteredEntities = entities
+            .where((entity) =>
+                entity.name.toLowerCase().contains(value.toLowerCase()))
+            .toList();
+      } else {
+        filteredEntities = entities;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,6 +186,35 @@ class _EntityScreenState extends State<EntityScreen> {
                 ),
               ],
             ),
+          ),
+          SearchField(
+            controller: searchController,
+            onChanged: _onSearchChanged,
+          ),
+          const SizedBox(height: 24),
+          Expanded(
+            child: filteredEntities.isEmpty
+                ? const Center(child: Text("No se encontraron entidades."))
+                : ListView.builder(
+                    itemCount: filteredEntities.length,
+                    itemBuilder: (context, index) {
+                      final entity = filteredEntities[index];
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 24.0,
+                          vertical: 8.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.cardColor,
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          title: Text(entity.name),
+                          subtitle: Text(entity.address),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
