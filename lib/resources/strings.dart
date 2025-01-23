@@ -20,7 +20,7 @@ class Strings {
   static const String selectDistrict = 'Seleccionar distrito';
   static const String district = 'Distrito';
   static const String selectTown = 'Seleccionar caserio';
-  static const String town = 'Caserio';
+  static const String town = 'Centro poblado';
   static const String done = 'Listo';
   static const String save = 'Guardar';
   static const String today = 'Hoy';

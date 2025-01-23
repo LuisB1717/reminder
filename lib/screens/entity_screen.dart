@@ -70,6 +70,7 @@ class _EntityScreenState extends State<EntityScreen> {
       context: context,
       builder: (BuildContext context) {
         return CustomFilter(
+          title: "Centros poblados",
           filters: towns
               .map((e) => FilterOption(id: e.id.toString(), name: e.name))
               .toList(),
@@ -94,10 +95,11 @@ class _EntityScreenState extends State<EntityScreen> {
       context: context,
       builder: (BuildContext context) {
         return CustomFilter(
+          title: "Distritos",
           filters: districts
               .map((e) => FilterOption(id: e.id.toString(), name: e.name))
               .toList(),
-          selectedFilter: selectedDistrict,
+          selectedFilters: [selectedDistrict],
         );
       },
     ).then((result) {
@@ -155,13 +157,13 @@ class _EntityScreenState extends State<EntityScreen> {
               children: [
                 const SizedBox(width: 12),
                 FilterButton(
-                  label: "Distrito",
+                  label: Strings.district,
                   isActive: selectedDistrict.isNotEmpty,
                   onPressed: _onDistritctFilterDialog,
                 ),
                 const SizedBox(width: 12),
                 FilterButton(
-                  label: "Centro Poblado",
+                  label: Strings.town,
                   isActive: filtersTown.isNotEmpty,
                   onPressed: _onTownFilterDialog,
                 ),

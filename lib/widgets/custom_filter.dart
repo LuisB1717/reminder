@@ -14,15 +14,16 @@ class FilterOption {
 class CustomFilter extends StatefulWidget {
   final List<FilterOption> filters;
   final bool isMultiSelect;
-  final String? selectedFilter;
+  final String title;
+
   final List<String>? selectedFilters;
 
   const CustomFilter({
     super.key,
     required this.filters,
-    this.selectedFilter = '',
     this.isMultiSelect = false,
     this.selectedFilters,
+    required this.title,
   });
 
   @override
@@ -31,21 +32,17 @@ class CustomFilter extends StatefulWidget {
 
 class _CustomFilterState extends State<CustomFilter> {
   List<String> selectedFilters = [];
-  String? selectedFilter;
 
   @override
   void initState() {
     super.initState();
-    selectedFilter = widget.selectedFilter ?? "";
     selectedFilters = widget.selectedFilters ?? [];
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: widget.isMultiSelect
-          ? const Text('Centros poblados')
-          : const Text('Distritos'),
+      title: Text(widget.title),
       content: SingleChildScrollView(
         child: (widget.isMultiSelect && widget.filters.isEmpty)
             ? Text("Este distrito no cuenta con centros poblados.")
@@ -72,13 +69,14 @@ class _CustomFilterState extends State<CustomFilter> {
                     return RadioListTile(
                       title: Text(filter.name),
                       value: filter.id,
-                      groupValue: selectedFilter,
+                      groupValue:
+                          selectedFilters.isEmpty ? null : selectedFilters[0],
                       onChanged: (String? value) {
                         setState(() {
-                          selectedFilter = value;
+                          selectedFilters = [value!];
                         });
 
-                        Navigator.of(context).pop(value);
+                        Navigator.of(context).pop(selectedFilters);
                       },
                     );
                   },
@@ -95,15 +93,9 @@ class _CustomFilterState extends State<CustomFilter> {
               : Text('Limpiar'),
           onPressed: () {
             setState(() {
-              if (widget.isMultiSelect) {
-                selectedFilters = [];
-              } else {
-                selectedFilter = "";
-              }
+              selectedFilters = [];
             });
-            widget.isMultiSelect
-                ? Navigator.of(context).pop(selectedFilters)
-                : Navigator.of(context).pop(selectedFilter);
+            Navigator.of(context).pop(selectedFilters);
           },
         ),
         if (widget.isMultiSelect && widget.filters.isNotEmpty)
