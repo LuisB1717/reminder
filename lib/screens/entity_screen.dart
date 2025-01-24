@@ -37,11 +37,10 @@ class _EntityScreenState extends State<EntityScreen> {
 
   void _loadTowns(String districtId) async {
     final fetchTowns = await getTowns(districtId);
-    if (mounted) {
-      setState(() {
-        towns = fetchTowns;
-      });
-    }
+
+    setState(() {
+      towns = fetchTowns;
+    });
   }
 
   void _loadEntities() async {
@@ -52,12 +51,10 @@ class _EntityScreenState extends State<EntityScreen> {
           : null,
     );
 
-    if (mounted) {
-      setState(() {
-        entities = fetchedEntities;
-        filteredEntities = fetchedEntities;
-      });
-    }
+    setState(() {
+      entities = fetchedEntities;
+      filteredEntities = fetchedEntities;
+    });
   }
 
   void _loadDistrics() async {
@@ -129,21 +126,35 @@ class _EntityScreenState extends State<EntityScreen> {
                     setState(() {
                       selectedDistrict = selected.first;
                       _loadTowns(selected.first);
+                      _loadEntities();
                     });
                   },
                   filters: districts,
                   label: Strings.district,
+                  onClear: () {
+                    setState(() {
+                      selectedDistrict = "";
+                    });
+                    _loadEntities();
+                  },
                 ),
                 const SizedBox(width: 12),
                 FilterButton(
                   onSelected: (selected) {
                     setState(() {
                       filtersTown = selected;
+                      _loadEntities();
                     });
                   },
                   filters: towns,
                   label: Strings.town,
                   isMutipleSelect: true,
+                  onClear: () {
+                    setState(() {
+                      filtersTown = [];
+                    });
+                    _loadEntities();
+                  },
                 ),
               ],
             ),

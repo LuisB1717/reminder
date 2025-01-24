@@ -8,6 +8,7 @@ class FilterButton extends StatefulWidget {
   final List filters;
   final void Function(List<String>) onSelected;
   final bool isMutipleSelect;
+  final void Function()? onClear;
 
   const FilterButton({
     super.key,
@@ -15,6 +16,7 @@ class FilterButton extends StatefulWidget {
     required this.filters,
     required this.onSelected,
     this.isMutipleSelect = false,
+    this.onClear,
   });
 
   @override
@@ -40,6 +42,7 @@ class _FilterButtonState extends State<FilterButton> {
                 setState(() {
                   selectedFilters = [];
                 });
+                widget.onClear!();
               },
               onChanged: (id, value) {
                 setState(() {
