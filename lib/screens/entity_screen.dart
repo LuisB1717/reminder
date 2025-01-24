@@ -8,7 +8,6 @@ import 'package:reminder/core/town.dart';
 import 'package:reminder/resources/colors.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/screens/entity_form_screen.dart';
-import 'package:reminder/widgets/custom_filter.dart';
 import 'package:reminder/widgets/filter_button.dart';
 import 'package:reminder/widgets/search_field.dart';
 
@@ -69,54 +68,6 @@ class _EntityScreenState extends State<EntityScreen> {
     });
   }
 
-  void _onTownFilterDialog() {
-    showDialog<List<String>>(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomFilter(
-          title: "Centros poblados",
-          filters: towns
-              .map((e) => FilterOption(id: e.id.toString(), name: e.name))
-              .toList(),
-          selectedFilters: filtersTown,
-          isMultiSelect: true,
-        );
-      },
-    ).then(
-      (result) {
-        if (result != null) {
-          setState(() {
-            filtersTown = result;
-          });
-        }
-        _loadEntities();
-      },
-    );
-  }
-
-  void _onDistritctFilterDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomFilter(
-          title: "Distritos",
-          filters: districts
-              .map((e) => FilterOption(id: e.id.toString(), name: e.name))
-              .toList(),
-          selectedFilters: [selectedDistrict],
-        );
-      },
-    ).then((result) {
-      if (result != null) {
-        setState(() {
-          selectedDistrict = result;
-        });
-        _loadTowns(selectedDistrict);
-        _loadEntities();
-      }
-    });
-  }
-
   void _onSearchChanged(String value) {
     setState(() {
       if (value.isNotEmpty) {
@@ -174,15 +125,27 @@ class _EntityScreenState extends State<EntityScreen> {
               children: [
                 const SizedBox(width: 12),
                 FilterButton(
+                  onSelected: (selected) {
+                    setState(() {
+                      selectedDistrict = selected.first;
+                      _loadTowns(selected.first);
+                    });
+                  },
+                  filters: districts,
                   label: Strings.district,
                   isActive: selectedDistrict.isNotEmpty,
-                  onPressed: _onDistritctFilterDialog,
                 ),
                 const SizedBox(width: 12),
                 FilterButton(
+                  onSelected: (selected) {
+                    setState(() {
+                      filtersTown = selected;
+                    });
+                  },
+                  filters: towns,
                   label: Strings.town,
                   isActive: filtersTown.isNotEmpty,
-                  onPressed: _onTownFilterDialog,
+                  isMutipleSelect: true,
                 ),
               ],
             ),
