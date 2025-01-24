@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/core/entity.dart';
-import 'package:reminder/resources/strings.dart';
 import 'package:reminder/api/district.dart';
 import 'package:reminder/api/town.dart';
 import 'package:reminder/core/district.dart';
+import 'package:reminder/core/entity.dart';
 import 'package:reminder/core/town.dart';
-import 'package:reminder/widgets/custom_filter.dart';
+import 'package:reminder/resources/strings.dart';
 import 'package:reminder/widgets/filter_button.dart';
 
 class FormEntity extends StatefulWidget {
@@ -55,53 +54,6 @@ class _FormEntityState extends State<FormEntity> {
     setState(() {
       districts = fetchedDistricts;
     });
-  }
-
-  void _onDistritctFilterDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomFilter(
-          title: "Distritos",
-          filters: districts
-              .map((e) => FilterOption(id: e.id.toString(), name: e.name))
-              .toList(),
-          selectedFilters: [selectedDistrict],
-        );
-      },
-    ).then((result) {
-      if (result != null) {
-        setState(() {
-          selectedDistrict = result;
-        });
-        _loadTowns(selectedDistrict);
-      }
-    });
-  }
-
-  void _onTownFilterDialog() {
-    showDialog<List<String>>(
-      context: context,
-      builder: (BuildContext context) {
-        return CustomFilter(
-          title: "Centros poblados",
-          filters: towns
-              .map((e) => FilterOption(id: e.id.toString(), name: e.name))
-              .toList(),
-          selectedFilters: filtersTown,
-          isMultiSelect: true,
-        );
-      },
-    ).then(
-      (result) {
-        if (result != null) {
-          setState(() {
-            filtersTown = result;
-          });
-        }
-        _loadTowns(selectedDistrict);
-      },
-    );
   }
 
   void _onSave() {
@@ -196,15 +148,18 @@ class _FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 10),
             FilterButton(
+              filters: districts,
+              onSelected: (_) {},
               label: Strings.district,
               isActive: selectedDistrict.isNotEmpty,
-              onPressed: _onDistritctFilterDialog,
             ),
             SizedBox(height: 10),
             FilterButton(
+              onSelected: (_) {},
               label: Strings.town,
               isActive: filtersTown.isNotEmpty,
-              onPressed: _onTownFilterDialog,
+              filters: towns,
+              isMutipleSelect: true,
             ),
             SizedBox(height: 10),
             TextFormField(
