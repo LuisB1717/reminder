@@ -30,10 +30,10 @@ class CustomFilter extends StatefulWidget {
   });
 
   @override
-  _CustomFilterState createState() => _CustomFilterState();
+  CustomFilterState createState() => CustomFilterState();
 }
 
-class _CustomFilterState extends State<CustomFilter> {
+class CustomFilterState extends State<CustomFilter> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -50,6 +50,7 @@ class _CustomFilterState extends State<CustomFilter> {
                         value: widget.selectedFilters.contains(filter.id),
                         onChanged: (bool? value) {
                           widget.onChanged(filter.id, value!);
+                          setState(() {});
                         },
                       );
                     }

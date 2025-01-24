@@ -75,9 +75,12 @@ class _FilterButtonState extends State<FilterButton> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          selectedFilters.isEmpty
-              ? Text(widget.label)
-              : Text('${widget.label} (${selectedFilters.length})'),
+          if (selectedFilters.isEmpty)
+            Text(widget.label)
+          else if (selectedFilters.length > 1)
+            Text('${widget.label} (${selectedFilters.length})')
+          else if (selectedFilters.length == 1)
+            Text(selectedFilters.first),
           Icon(
             Icons.arrow_drop_down,
             size: 20,
