@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reminder/core/entity.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/api/district.dart';
 import 'package:reminder/api/town.dart';
@@ -9,10 +10,12 @@ import 'package:reminder/widgets/filter_button.dart';
 
 class FormEntity extends StatefulWidget {
   final int type;
+  final Function(Entity) onChanged;
 
   const FormEntity({
     super.key,
     required this.type,
+    required this.onChanged,
   });
 
   @override
@@ -101,6 +104,19 @@ class _FormEntityState extends State<FormEntity> {
     );
   }
 
+  void _onSave() {
+    Entity entity = Entity(
+      id: '',
+      name: _nameController.text,
+      phone: _phoneController.text,
+      address: _adressController.text,
+      district: selectedDistrict,
+      town: 0,
+      date: _dateSelect ?? DateTime.now(),
+    );
+    widget.onChanged(entity);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -111,6 +127,9 @@ class _FormEntityState extends State<FormEntity> {
           shrinkWrap: true,
           children: [
             TextFormField(
+              onChanged: (value) {
+                _onSave();
+              },
               controller: _nameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -132,6 +151,9 @@ class _FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 10),
             TextFormField(
+              onChanged: (value) {
+                _onSave();
+              },
               controller: _phoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -152,6 +174,9 @@ class _FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 10),
             TextFormField(
+              onChanged: (value) {
+                _onSave();
+              },
               controller: _adressController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -203,6 +228,7 @@ class _FormEntityState extends State<FormEntity> {
                 if (pickedDate != null) {
                   setState(() {
                     _dateSelect = pickedDate;
+                    _onSave();
                   });
                 }
               },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reminder/core/entity.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/widgets/bar.dart';
 import 'package:reminder/widgets/entities_form.dart';
@@ -12,6 +13,7 @@ class EntityFormScreen extends StatefulWidget {
 }
 
 class _EntityFormScreenState extends State<EntityFormScreen> {
+  late Entity entity;
   int _selectedType = 0;
   late PageController _pageFormController;
 
@@ -52,7 +54,10 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
             ),
             rightIcon: IconButton(
               icon: const Icon(Icons.check),
-              onPressed: () => _showSaveDialog(context),
+              onPressed: () => _showSaveDialog(
+                context,
+                entity,
+              ),
             ),
           ),
           Menu(
@@ -69,7 +74,14 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               controller: _pageFormController,
               onPageChanged: (index) => _onItemTapped(index),
               children: [
-                FormEntity(type: _selectedType),
+                FormEntity(
+                  type: _selectedType,
+                  onChanged: (payload) {
+                    setState(() {
+                      entity = payload;
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -78,7 +90,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
     );
   }
 
-  void _showSaveDialog(BuildContext context) {
+  void _showSaveDialog(BuildContext context, Entity entity) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -99,6 +111,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                   TextButton(
                     child: const Text(Strings.save),
                     onPressed: () {
+                      print(entity.toJson());
                       Navigator.of(context).pop();
                     },
                   ),
