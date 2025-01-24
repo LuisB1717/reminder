@@ -15,15 +15,18 @@ class CustomFilter extends StatefulWidget {
   final List<FilterOption> filters;
   final bool isMultiSelect;
   final String title;
-
-  final List<String>? selectedFilters;
+  final List<String> selectedFilters;
+  final void Function(String, bool?) onChanged;
+  final Function() onClear;
 
   const CustomFilter({
     super.key,
     required this.filters,
     this.isMultiSelect = false,
-    this.selectedFilters,
+    required this.selectedFilters,
     required this.title,
+    required this.onChanged,
+    required this.onClear,
   });
 
   @override
@@ -31,14 +34,6 @@ class CustomFilter extends StatefulWidget {
 }
 
 class _CustomFilterState extends State<CustomFilter> {
-  List<String> selectedFilters = [];
-
-  @override
-  void initState() {
-    super.initState();
-    selectedFilters = widget.selectedFilters ?? [];
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -52,30 +47,22 @@ class _CustomFilterState extends State<CustomFilter> {
                     if (widget.isMultiSelect) {
                       return CheckboxListTile(
                         title: Text(filter.name),
-                        value: selectedFilters.contains(filter.id.toString()),
+                        value: widget.selectedFilters.contains(filter.id),
                         onChanged: (bool? value) {
-                          setState(
-                            () {
-                              if (value == true) {
-                                selectedFilters.add(filter.id.toString());
-                              } else {
-                                selectedFilters.remove(filter.id.toString());
-                              }
-                            },
-                          );
+                          widget.onChanged(filter.id, value!);
                         },
                       );
                     }
                     return RadioListTile(
                       title: Text(filter.name),
                       value: filter.id,
-                      groupValue:
-                          selectedFilters.isEmpty ? null : selectedFilters[0],
+                      groupValue: widget.selectedFilters.isEmpty
+                          ? null
+                          : widget.selectedFilters.first,
                       onChanged: (String? value) {
-                        setState(() {
-                          selectedFilters = [value!];
-                        });
-                        Navigator.of(context).pop(value);
+                        if (value == null) return;
+                        widget.onChanged(filter.id, null);
+                        Navigator.of(context).pop([value]);
                       },
                     );
                   },
@@ -91,17 +78,15 @@ class _CustomFilterState extends State<CustomFilter> {
                 )
               : Text('Limpiar'),
           onPressed: () {
-            setState(() {
-              selectedFilters = [];
-            });
-            Navigator.of(context).pop(selectedFilters);
+            widget.onClear();
+            Navigator.of(context).pop();
           },
         ),
         if (widget.isMultiSelect && widget.filters.isNotEmpty)
           TextButton(
             child: Text('Aplicar'),
             onPressed: () {
-              Navigator.of(context).pop(selectedFilters);
+              Navigator.of(context).pop(widget.selectedFilters);
             },
           ),
       ],
