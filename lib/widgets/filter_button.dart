@@ -4,7 +4,7 @@ import 'package:reminder/widgets/custom_filter.dart';
 
 class FilterButton extends StatefulWidget {
   final String label;
-  final bool isActive;
+
   final List filters;
   final void Function(List<String>) onSelected;
   final bool isMutipleSelect;
@@ -12,7 +12,6 @@ class FilterButton extends StatefulWidget {
   const FilterButton({
     super.key,
     required this.label,
-    required this.isActive,
     required this.filters,
     required this.onSelected,
     this.isMutipleSelect = false,
@@ -27,6 +26,10 @@ class _FilterButtonState extends State<FilterButton> {
 
   @override
   Widget build(BuildContext context) {
+    final options = widget.filters
+        .map((e) => FilterOption(id: e.id.toString(), name: e.name))
+        .toList();
+    final districtOption = options.where((e) => e.id == selectedFilters.first);
     return ElevatedButton(
       onPressed: () {
         showDialog(
@@ -52,9 +55,7 @@ class _FilterButtonState extends State<FilterButton> {
                 });
               },
               title: "Distritos",
-              filters: widget.filters
-                  .map((e) => FilterOption(id: e.id.toString(), name: e.name))
-                  .toList(),
+              filters: options,
               selectedFilters: selectedFilters,
               isMultiSelect: widget.isMutipleSelect,
             );
@@ -67,8 +68,9 @@ class _FilterButtonState extends State<FilterButton> {
           borderRadius: BorderRadius.circular(15.0),
           side: const BorderSide(color: AppColors.border),
         ),
-        backgroundColor:
-            widget.isActive ? AppColors.cardColor : AppColors.background,
+        backgroundColor: selectedFilters.isNotEmpty
+            ? AppColors.cardColor
+            : AppColors.background,
         foregroundColor: AppColors.font,
         iconColor: AppColors.font,
       ),
@@ -80,7 +82,7 @@ class _FilterButtonState extends State<FilterButton> {
           else if (selectedFilters.length > 1)
             Text('${widget.label} (${selectedFilters.length})')
           else if (selectedFilters.length == 1)
-            Text(selectedFilters.first),
+            Text(districtOption.first.name),
           Icon(
             Icons.arrow_drop_down,
             size: 20,

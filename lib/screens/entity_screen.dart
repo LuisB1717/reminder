@@ -133,7 +133,6 @@ class _EntityScreenState extends State<EntityScreen> {
                   },
                   filters: districts,
                   label: Strings.district,
-                  isActive: selectedDistrict.isNotEmpty,
                 ),
                 const SizedBox(width: 12),
                 FilterButton(
@@ -144,7 +143,6 @@ class _EntityScreenState extends State<EntityScreen> {
                   },
                   filters: towns,
                   label: Strings.town,
-                  isActive: filtersTown.isNotEmpty,
                   isMutipleSelect: true,
                 ),
               ],
