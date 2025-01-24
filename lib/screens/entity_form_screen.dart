@@ -1,46 +1,80 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/pages/entities_page.dart';
 import 'package:reminder/resources/strings.dart';
+import 'package:reminder/widgets/bar.dart';
+import 'package:reminder/widgets/entities_form.dart';
+import 'package:reminder/widgets/menu.dart';
 
-class EntityFormScreen extends StatelessWidget {
+class EntityFormScreen extends StatefulWidget {
   const EntityFormScreen({super.key});
+
+  @override
+  State<EntityFormScreen> createState() => _EntityFormScreenState();
+}
+
+class _EntityFormScreenState extends State<EntityFormScreen> {
+  int _selectedType = 0;
+  late PageController _pageFormController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageFormController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageFormController.dispose();
+    super.dispose();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedType = index;
+    });
+    _pageFormController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 20.0),
-          child: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
+      body: Column(
+        children: [
+          Bar(
+            title: Strings.addEntity,
+            centered: true,
+            leftIcon: IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: () => Navigator.pop(context),
+            ),
+            rightIcon: IconButton(
+              icon: const Icon(Icons.check),
+              onPressed: () => _showSaveDialog(context),
+            ),
           ),
-        ),
-        title: Text(
-          Strings.addEntity,
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          Menu(
+            selectedIndex: _selectedType,
+            onItemTapped: _onItemTapped,
+            icons: const [
+              Icons.person_outlined,
+              Icons.business_center_outlined,
+            ],
           ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: IconButton(
-              icon: const Icon(
-                Icons.check,
-              ),
-              onPressed: () {
-                _showSaveDialog(context);
-              },
+          const SizedBox(height: 12),
+          Expanded(
+            child: PageView(
+              controller: _pageFormController,
+              onPageChanged: (index) => _onItemTapped(index),
+              children: [
+                FormEntity(type: _selectedType),
+              ],
             ),
           ),
         ],
       ),
-      body: EntitiesFormPage(),
     );
   }
 
