@@ -4,6 +4,8 @@ class Entity {
   final int? town;
   final DateTime date;
   final String address;
+  final String? district;
+  final String? phone;
 
   Entity({
     required this.id,
@@ -11,6 +13,8 @@ class Entity {
     required this.date,
     required this.address,
     this.town,
+    this.district,
+    this.phone,
   });
 
   factory Entity.from(Map<String, dynamic> json) {
@@ -19,6 +23,8 @@ class Entity {
     final town = json['town'];
     final date = DateTime.tryParse(json['date']);
     final address = json['address'];
+    final district = json['district'];
+    final phone = json['phone'];
 
     return Entity(
       id: id,
@@ -26,6 +32,21 @@ class Entity {
       town: town,
       date: date ?? DateTime.now(),
       address: address,
+      district: district,
+      phone: phone,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'town': town,
+      'date': date.toIso8601String(),
+      'address': address,
+      'department': '13',
+      'province': '1304',
+      'district': district,
+      'phone': phone,
+    };
   }
 }

@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:reminder/core/entity.dart';
 import 'package:reminder/resources/strings.dart';
+import 'package:reminder/api/district.dart';
+import 'package:reminder/api/town.dart';
+import 'package:reminder/core/district.dart';
+import 'package:reminder/core/town.dart';
+import 'package:reminder/widgets/custom_filter.dart';
+import 'package:reminder/widgets/filter_button.dart';
 
 class FormEntity extends StatefulWidget {
-  const FormEntity({super.key});
+  final int type;
+  final Function(Entity) onChanged;
+
+  const FormEntity({
+    super.key,
+    required this.type,
+    required this.onChanged,
+  });
 
   @override
   _FormEntityState createState() => _FormEntityState();
@@ -13,9 +27,95 @@ class _FormEntityState extends State<FormEntity> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _adressController = TextEditingController();
-  String? _district;
-  String? _town;
+  List<District> districts = [];
+  List<Town> towns = [];
+  String selectedDistrict = "";
+  List<String> filtersTown = [];
   DateTime? _dateSelect;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _loadDistrics();
+  }
+
+  void _loadTowns(String districtId) async {
+    final fetchTowns = await getTowns(districtId);
+    if (mounted) {
+      setState(() {
+        towns = fetchTowns;
+      });
+    }
+  }
+
+  void _loadDistrics() async {
+    final fetchedDistricts = await getDistricts();
+
+    setState(() {
+      districts = fetchedDistricts;
+    });
+  }
+
+  void _onDistritctFilterDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomFilter(
+          title: "Distritos",
+          filters: districts
+              .map((e) => FilterOption(id: e.id.toString(), name: e.name))
+              .toList(),
+          selectedFilters: [selectedDistrict],
+        );
+      },
+    ).then((result) {
+      if (result != null) {
+        setState(() {
+          selectedDistrict = result;
+        });
+        _loadTowns(selectedDistrict);
+      }
+    });
+  }
+
+  void _onTownFilterDialog() {
+    showDialog<List<String>>(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomFilter(
+          title: "Centros poblados",
+          filters: towns
+              .map((e) => FilterOption(id: e.id.toString(), name: e.name))
+              .toList(),
+          selectedFilters: filtersTown,
+          isMultiSelect: true,
+        );
+      },
+    ).then(
+      (result) {
+        if (result != null) {
+          setState(() {
+            filtersTown = result;
+          });
+        }
+        _loadTowns(selectedDistrict);
+      },
+    );
+  }
+
+  void _onSave() {
+    Entity entity = Entity(
+      id: '',
+      name: _nameController.text,
+      phone: _phoneController.text,
+      address: _adressController.text,
+      district: selectedDistrict,
+      town: 0,
+      date: _dateSelect ?? DateTime.now(),
+    );
+    widget.onChanged(entity);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +127,20 @@ class _FormEntityState extends State<FormEntity> {
           shrinkWrap: true,
           children: [
             TextFormField(
+              onChanged: (value) {
+                _onSave();
+              },
               controller: _nameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide.none),
-                hintText: Strings.name,
+                hintText: widget.type == 0 ? Strings.name : 'Razon social',
                 filled: true,
                 fillColor: const Color(0xFFEFEFEF),
-                suffixIcon: Icon(Icons.person_2),
+                suffixIcon: Icon(
+                  widget.type == 0 ? Icons.person : Icons.business,
+                ),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -46,6 +151,9 @@ class _FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 10),
             TextFormField(
+              onChanged: (value) {
+                _onSave();
+              },
               controller: _phoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -66,6 +174,9 @@ class _FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 10),
             TextFormField(
+              onChanged: (value) {
+                _onSave();
+              },
               controller: _adressController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -84,61 +195,16 @@ class _FormEntityState extends State<FormEntity> {
               },
             ),
             SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              isExpanded: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none),
-                hintText: Strings.selectDistrict,
-                filled: true,
-                fillColor: const Color(0xFFEFEFEF),
-              ),
-              items: ['Distrito A', 'Distrito B', 'Distrito C']
-                  .map((district) => DropdownMenuItem(
-                        value: district,
-                        child: Text(
-                          district,
-                          style: TextStyle(
-                            fontSize: 14,
-                          ),
-                        ),
-                      ))
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _district = value;
-                });
-              },
+            FilterButton(
+              label: Strings.district,
+              isActive: selectedDistrict.isNotEmpty,
+              onPressed: _onDistritctFilterDialog,
             ),
             SizedBox(height: 10),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none),
-                hintText: Strings.selectTown,
-                filled: true,
-                fillColor: const Color(0xFFEFEFEF),
-              ),
-              items: ['Caserío A', 'Caserío B', 'Caserío C']
-                  .map(
-                    (caserio) => DropdownMenuItem(
-                      value: caserio,
-                      child: Text(
-                        caserio,
-                        style: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-              onChanged: (value) {
-                setState(() {
-                  _town = value;
-                });
-              },
+            FilterButton(
+              label: Strings.town,
+              isActive: filtersTown.isNotEmpty,
+              onPressed: _onTownFilterDialog,
             ),
             SizedBox(height: 10),
             TextFormField(
@@ -162,6 +228,7 @@ class _FormEntityState extends State<FormEntity> {
                 if (pickedDate != null) {
                   setState(() {
                     _dateSelect = pickedDate;
+                    _onSave();
                   });
                 }
               },

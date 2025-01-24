@@ -21,3 +21,8 @@ Future<List<Entity>> getEntities({
   final entities = rows.map(Entity.from).toList();
   return entities;
 }
+
+Future<void> createEntity(Entity entity) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('entity').insert(entity.toJson());
+}
