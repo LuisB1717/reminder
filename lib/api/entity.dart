@@ -7,7 +7,9 @@ Future<List<Entity>> getEntities({
 }) async {
   final supabase = Supabase.instance.client;
 
-  var query = supabase.from('entity').select();
+  var query = supabase
+      .from('entity')
+      .select(' * , town ( id, name ), district (id , name ) ');
 
   if (districtId != null) {
     query = query.eq('district_id', districtId);
