@@ -151,13 +151,11 @@ class _FormEntityState extends State<FormEntity> {
               filters: districts,
               onSelected: (_) {},
               label: Strings.district,
-              isActive: selectedDistrict.isNotEmpty,
             ),
             SizedBox(height: 10),
             FilterButton(
               onSelected: (_) {},
               label: Strings.town,
-              isActive: filtersTown.isNotEmpty,
               filters: towns,
               isMutipleSelect: true,
             ),
