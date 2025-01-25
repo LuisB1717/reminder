@@ -8,6 +8,7 @@ import 'package:reminder/core/town.dart';
 import 'package:reminder/resources/colors.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/screens/entity_form_screen.dart';
+import 'package:reminder/widgets/entity_card.dart';
 import 'package:reminder/widgets/filter_button.dart';
 import 'package:reminder/widgets/search_field.dart';
 
@@ -171,20 +172,8 @@ class _EntityScreenState extends State<EntityScreen> {
                     itemCount: filteredEntities.length,
                     itemBuilder: (context, index) {
                       final entity = filteredEntities[index];
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 24.0,
-                          vertical: 8.0,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.cardColor,
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: ListTile(
-                          title: Text(entity.name),
-                          subtitle: Text(entity.address),
-                        ),
-                      );
+
+                      return EntityCard(entity: entity);
                     },
                   ),
           ),
