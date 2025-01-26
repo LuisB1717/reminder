@@ -63,7 +63,7 @@ class _FormEntityState extends State<FormEntity> {
       phone: _phoneController.text,
       address: _adressController.text,
       district: selectedDistrict,
-      town: 0,
+      town: 0.toString(),
       date: _dateSelect ?? DateTime.now(),
     );
     widget.onChanged(entity);

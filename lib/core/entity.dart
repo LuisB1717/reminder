@@ -1,7 +1,7 @@
 class Entity {
   final String id;
   final String name;
-  final int? town;
+  final String? town;
   final DateTime date;
   final String address;
   final String? district;
@@ -20,10 +20,11 @@ class Entity {
   factory Entity.from(Map<String, dynamic> json) {
     final id = json['id'].toString();
     final name = json['name'];
-    final town = json['town'];
+    final town = json['town'] is Map ? json['town']['name'] : json['town'];
     final date = DateTime.tryParse(json['date']);
     final address = json['address'];
-    final district = json['district'];
+    final district =
+        json['district'] is Map ? json['district']['name'] : json['district'];
     final phone = json['phone'];
 
     return Entity(
