@@ -135,6 +135,7 @@ class _EntityScreenState extends State<EntityScreen> {
                   onClear: () {
                     setState(() {
                       selectedDistrict = "";
+                      _loadTowns(selectedDistrict);
                     });
                     _loadEntities();
                   },
