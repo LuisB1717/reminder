@@ -1,20 +1,22 @@
 class Entity {
-  final String id;
+  final String? id;
   final String name;
   final String? town;
   final DateTime date;
   final String address;
   final String? district;
   final String? phone;
+  final String type;
 
   Entity({
-    required this.id,
+    this.id,
     required this.name,
     required this.date,
     required this.address,
     this.town,
     this.district,
     this.phone,
+    required this.type,
   });
 
   factory Entity.from(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Entity {
     final district =
         json['district'] is Map ? json['district']['name'] : json['district'];
     final phone = json['phone'];
+    final type = json['type'];
 
     return Entity(
       id: id,
@@ -35,19 +38,21 @@ class Entity {
       address: address,
       district: district,
       phone: phone,
+      type: type,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'name': name,
-      'town': town,
+      'town_id': int.parse(town!),
       'date': date.toIso8601String(),
       'address': address,
-      'department': '13',
-      'province': '1304',
-      'district': district,
+      'province_id': '1304',
+      'district_id': district,
+      'department_id': '13',
       'phone': phone,
+      'type': type,
     };
   }
 }
