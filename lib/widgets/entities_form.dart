@@ -18,10 +18,10 @@ class FormEntity extends StatefulWidget {
   });
 
   @override
-  _FormEntityState createState() => _FormEntityState();
+  FormEntityState createState() => FormEntityState();
 }
 
-class _FormEntityState extends State<FormEntity> {
+class FormEntityState extends State<FormEntity> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -29,13 +29,12 @@ class _FormEntityState extends State<FormEntity> {
   List<District> districts = [];
   List<Town> towns = [];
   String selectedDistrict = "";
-  List<String> filtersTown = [];
+  String selectedTown = "";
   DateTime? _dateSelect;
 
   @override
   void initState() {
     super.initState();
-
     _loadDistrics();
   }
 
@@ -50,7 +49,6 @@ class _FormEntityState extends State<FormEntity> {
 
   void _loadDistrics() async {
     final fetchedDistricts = await getDistricts();
-
     setState(() {
       districts = fetchedDistricts;
     });
@@ -58,12 +56,12 @@ class _FormEntityState extends State<FormEntity> {
 
   void _onSave() {
     Entity entity = Entity(
-      id: '',
+      type: widget.type.toString(),
       name: _nameController.text,
       phone: _phoneController.text,
       address: _adressController.text,
       district: selectedDistrict,
-      town: 0.toString(),
+      town: selectedTown.isEmpty ? null : selectedTown,
       date: _dateSelect ?? DateTime.now(),
     );
     widget.onChanged(entity);
@@ -148,16 +146,38 @@ class _FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 10),
             FilterButton(
+              onSelected: (selected) {
+                setState(() {
+                  selectedDistrict = selected.first;
+                  _loadTowns(selected.first);
+                });
+              },
               filters: districts,
-              onSelected: (_) {},
               label: Strings.district,
+              onClear: () {
+                setState(
+                  () {
+                    selectedDistrict = "";
+                  },
+                );
+              },
             ),
             SizedBox(height: 10),
             FilterButton(
-              onSelected: (_) {},
-              label: Strings.town,
+              onSelected: (selected) {
+                setState(() {
+                  selectedTown = selected.first;
+                });
+              },
               filters: towns,
-              isMutipleSelect: true,
+              label: Strings.town,
+              onClear: () {
+                setState(
+                  () {
+                    selectedTown = "";
+                  },
+                );
+              },
             ),
             SizedBox(height: 10),
             TextFormField(

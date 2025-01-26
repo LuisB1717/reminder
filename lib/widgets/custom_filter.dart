@@ -39,7 +39,7 @@ class CustomFilterState extends State<CustomFilter> {
     return AlertDialog(
       title: Text(widget.title),
       content: SingleChildScrollView(
-        child: (widget.isMultiSelect && widget.filters.isEmpty)
+        child: (widget.filters.isEmpty)
             ? Text("Este distrito no cuenta con centros poblados.")
             : ListBody(
                 children: widget.filters.map(

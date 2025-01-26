@@ -8,7 +8,7 @@ class FilterButton extends StatefulWidget {
   final List filters;
   final void Function(List<String>) onSelected;
   final bool isMutipleSelect;
-  final void Function()? onClear;
+  final Function? onClear;
 
   const FilterButton({
     super.key,
