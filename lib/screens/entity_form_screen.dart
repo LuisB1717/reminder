@@ -117,7 +117,8 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                     child: const Text(Strings.save),
                     onPressed: () {
                       _onSave();
-                      Navigator.of(context).pop();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                   ),
                 ],
