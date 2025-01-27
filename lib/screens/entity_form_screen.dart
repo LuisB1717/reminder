@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reminder/api/entity.dart';
 import 'package:reminder/core/entity.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/widgets/bar.dart';
@@ -38,6 +39,10 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
+  }
+
+  void _onSave() async {
+    await createEntity(entity);
   }
 
   @override
@@ -111,8 +116,9 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                   TextButton(
                     child: const Text(Strings.save),
                     onPressed: () {
-                      print(entity.toJson());
-                      Navigator.of(context).pop();
+                      _onSave();
+                      Navigator.pop(context);
+                      Navigator.pop(context);
                     },
                   ),
                 ],
