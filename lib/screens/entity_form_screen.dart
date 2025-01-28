@@ -45,8 +45,17 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
   }
 
   void _onSave() async {
-    await createEntity(entity);
-    await createEvent(event);
+    try {
+      await createEntity(entity);
+      await createEvent(event);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al guardar la entidad: $e'),
+        ),
+      );
+    }
   }
 
   @override
@@ -85,10 +94,10 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               children: [
                 FormEntity(
                   type: _selectedType,
-                  onChanged: (payload, payload2) {
+                  onChanged: (entity, event) {
                     setState(() {
-                      entity = payload;
-                      event = payload2;
+                      entity = entity;
+                      event = event;
                     });
                   },
                 ),
