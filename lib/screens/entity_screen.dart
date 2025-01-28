@@ -5,7 +5,6 @@ import 'package:reminder/api/town.dart';
 import 'package:reminder/core/district.dart';
 import 'package:reminder/core/entity.dart';
 import 'package:reminder/core/town.dart';
-import 'package:reminder/resources/colors.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/screens/entity_form_screen.dart';
 import 'package:reminder/widgets/entity_card.dart';
@@ -27,6 +26,7 @@ class _EntityScreenState extends State<EntityScreen> {
   List<String> filtersTown = [];
   List<Entity> entities = [];
   List<Entity> filteredEntities = [];
+  int totalEntities = 0;
 
   @override
   void initState() {
@@ -34,6 +34,15 @@ class _EntityScreenState extends State<EntityScreen> {
 
     _loadEntities();
     _loadDistrics();
+    _loadEntitiesCount();
+  }
+
+  void _loadEntitiesCount() async {
+    final count = await getCountEntities();
+
+    setState(() {
+      totalEntities = count;
+    });
   }
 
   void _loadTowns(String districtId) async {
@@ -90,7 +99,7 @@ class _EntityScreenState extends State<EntityScreen> {
               height: 40.0,
               width: 40.0,
               decoration: BoxDecoration(
-                color: AppColors.cardColor,
+                color: Theme.of(context).colorScheme.secondary,
                 shape: BoxShape.circle,
               ),
               child: IconButton(
@@ -108,20 +117,23 @@ class _EntityScreenState extends State<EntityScreen> {
         ],
         title: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            Strings.entities,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          child: Row(
+            children: [
+              Text(
+                Strings.entities,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ),
-        backgroundColor: AppColors.background,
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
+          const SizedBox(height: 15),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 22.0),
             child: Row(
               children: [
-                const SizedBox(width: 12),
                 FilterButton(
                   onSelected: (selected) {
                     setState(() {
@@ -140,7 +152,7 @@ class _EntityScreenState extends State<EntityScreen> {
                     _loadEntities();
                   },
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8.0),
                 FilterButton(
                   onSelected: (selected) {
                     setState(() {
@@ -161,11 +173,17 @@ class _EntityScreenState extends State<EntityScreen> {
               ],
             ),
           ),
+          const SizedBox(height: 15),
           SearchField(
             controller: searchController,
             onChanged: _onSearchChanged,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 15),
+          Text(
+            "Se están mostrando ${filteredEntities.length} de ${totalEntities.toString()} entidades",
+            style: TextStyle(color: Theme.of(context).hintColor),
+          ),
+          const SizedBox(height: 15),
           Expanded(
             child: filteredEntities.isEmpty
                 ? const Center(child: Text("No se encontraron entidades."))
@@ -173,7 +191,6 @@ class _EntityScreenState extends State<EntityScreen> {
                     itemCount: filteredEntities.length,
                     itemBuilder: (context, index) {
                       final entity = filteredEntities[index];
-
                       return EntityCard(entity: entity);
                     },
                   ),
