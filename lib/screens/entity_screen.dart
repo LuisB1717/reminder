@@ -7,6 +7,7 @@ import 'package:reminder/core/entity.dart';
 import 'package:reminder/core/town.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/screens/entity_form_screen.dart';
+import 'package:reminder/widgets/clear_filter.dart';
 import 'package:reminder/widgets/entity_card.dart';
 import 'package:reminder/widgets/filter_button.dart';
 import 'package:reminder/widgets/search_field.dart';
@@ -134,6 +135,20 @@ class _EntityScreenState extends State<EntityScreen> {
             margin: const EdgeInsets.symmetric(horizontal: 22.0),
             child: Row(
               children: [
+                ClearFilter(
+                  onClear: () => {
+                    setState(() {
+                      selectedDistrict = "";
+                      filtersTown = [];
+                      _loadEntities();
+                      _loadTowns(selectedDistrict);
+                    })
+                  },
+                  color: selectedDistrict.isNotEmpty || filtersTown.isNotEmpty
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSecondary,
+                ),
+                const SizedBox(width: 8.0),
                 FilterButton(
                   onSelected: (selected) {
                     setState(() {
@@ -144,13 +159,8 @@ class _EntityScreenState extends State<EntityScreen> {
                   },
                   filters: districts,
                   label: Strings.district,
-                  onClear: () {
-                    setState(() {
-                      selectedDistrict = "";
-                      _loadTowns(selectedDistrict);
-                    });
-                    _loadEntities();
-                  },
+                  initialSelected:
+                      selectedDistrict.isNotEmpty ? [selectedDistrict] : [],
                 ),
                 const SizedBox(width: 8.0),
                 FilterButton(
@@ -169,6 +179,7 @@ class _EntityScreenState extends State<EntityScreen> {
                     });
                     _loadEntities();
                   },
+                  initialSelected: filtersTown.isNotEmpty ? filtersTown : [],
                 ),
               ],
             ),
