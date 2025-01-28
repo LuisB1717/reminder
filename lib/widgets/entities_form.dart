@@ -11,10 +11,7 @@ import 'package:uuid/uuid.dart';
 
 class FormEntity extends StatefulWidget {
   final int type;
-  final Function(
-    Entity,
-    Event,
-  ) onChanged;
+  final Function(Entity, Event) onChanged;
 
   const FormEntity({
     super.key,
@@ -60,7 +57,7 @@ class FormEntityState extends State<FormEntity> {
   }
 
   void _onSave() {
-    var uuid = Uuid();
+    final uuid = Uuid();
 
     Entity entity = Entity(
       id: uuid.v4(),
