@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/api/entity.dart';
+import 'package:reminder/api/event.dart';
 import 'package:reminder/core/entity.dart';
+import 'package:reminder/core/event.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/widgets/bar.dart';
 import 'package:reminder/widgets/entities_form.dart';
@@ -15,6 +17,7 @@ class EntityFormScreen extends StatefulWidget {
 
 class _EntityFormScreenState extends State<EntityFormScreen> {
   late Entity entity;
+  late Event event;
   int _selectedType = 0;
   late PageController _pageFormController;
 
@@ -42,7 +45,17 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
   }
 
   void _onSave() async {
-    await createEntity(entity);
+    try {
+      await createEntity(entity);
+      await createEvent(event);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error al guardar la entidad: $e'),
+        ),
+      );
+    }
   }
 
   @override
@@ -81,9 +94,10 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               children: [
                 FormEntity(
                   type: _selectedType,
-                  onChanged: (payload) {
+                  onChanged: (entity, event) {
                     setState(() {
-                      entity = payload;
+                      entity = entity;
+                      event = event;
                     });
                   },
                 ),
