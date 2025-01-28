@@ -72,10 +72,14 @@ class _FilterButtonState extends State<FilterButton> {
           side: const BorderSide(color: AppColors.border),
         ),
         backgroundColor: selectedFilters.isNotEmpty
-            ? AppColors.cardColor
-            : AppColors.background,
-        foregroundColor: AppColors.font,
-        iconColor: AppColors.font,
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.secondary,
+        foregroundColor: selectedFilters.isNotEmpty
+            ? Theme.of(context).colorScheme.onPrimary
+            : Theme.of(context).colorScheme.onSecondary,
+        iconColor: selectedFilters.isNotEmpty
+            ? Theme.of(context).colorScheme.onPrimary
+            : Theme.of(context).colorScheme.onSecondary,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
