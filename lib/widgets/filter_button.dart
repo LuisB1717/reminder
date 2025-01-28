@@ -4,11 +4,11 @@ import 'package:reminder/widgets/custom_filter.dart';
 
 class FilterButton extends StatefulWidget {
   final String label;
-
   final List filters;
   final void Function(List<String>) onSelected;
   final bool isMutipleSelect;
   final Function? onClear;
+  final List<String> initialSelected;
 
   const FilterButton({
     super.key,
@@ -17,6 +17,7 @@ class FilterButton extends StatefulWidget {
     required this.onSelected,
     this.isMutipleSelect = false,
     this.onClear,
+    this.initialSelected = const [],
   });
 
   @override
@@ -25,6 +26,16 @@ class FilterButton extends StatefulWidget {
 
 class _FilterButtonState extends State<FilterButton> {
   List<String> selectedFilters = [];
+
+  @override
+  void didUpdateWidget(covariant FilterButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialSelected != widget.initialSelected) {
+      setState(() {
+        selectedFilters = widget.initialSelected;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
