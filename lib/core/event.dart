@@ -3,12 +3,14 @@ class Event {
   final DateTime date;
   final String? type;
   final String? entityId;
+  final String? recurrence;
 
   Event({
     this.id,
     required this.date,
     this.type,
     this.entityId,
+    this.recurrence,
   });
 
   factory Event.from(Map<String, dynamic> json) {
@@ -29,5 +31,6 @@ class Event {
         'date': date.toIso8601String(),
         'type': type,
         'entity_id': entityId,
+        'recurrence': 'annual',
       };
 }
