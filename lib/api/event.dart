@@ -8,3 +8,8 @@ Future<List<Event>> getAllEvents() async {
 
   return events;
 }
+
+Future<void> createEvent(Event event) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('event').insert(event.toJson());
+}
