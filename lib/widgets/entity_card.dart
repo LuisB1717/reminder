@@ -49,7 +49,7 @@ class EntityCard extends StatelessWidget {
             children: [
               Text(
                 entity.town == null
-                    ? '${entity.district}'
+                    ? entity.district.toString()
                     : '${entity.town}, ${entity.district}',
                 style: TextStyle(
                     fontSize: 12, color: Theme.of(context).colorScheme.primary),

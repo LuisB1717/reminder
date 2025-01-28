@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class ClearFilter extends StatelessWidget {
   final Function onClear;
-  final Color color;
+  final bool isActive;
 
   const ClearFilter({
     super.key,
     required this.onClear,
-    required this.color,
+    required this.isActive,
   });
 
   @override
@@ -22,7 +22,9 @@ class ClearFilter extends StatelessWidget {
         ),
         child: Icon(
           Icons.clear_all_outlined,
-          color: color,
+          color: isActive
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSecondary,
         ),
       ),
     );

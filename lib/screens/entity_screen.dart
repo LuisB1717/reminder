@@ -144,9 +144,10 @@ class _EntityScreenState extends State<EntityScreen> {
                       _loadTowns(selectedDistrict);
                     })
                   },
-                  color: selectedDistrict.isNotEmpty || filtersTown.isNotEmpty
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onSecondary,
+                  isActive:
+                      selectedDistrict.isNotEmpty || filtersTown.isNotEmpty
+                          ? true
+                          : false,
                 ),
                 const SizedBox(width: 8.0),
                 FilterButton(
@@ -191,13 +192,20 @@ class _EntityScreenState extends State<EntityScreen> {
           ),
           const SizedBox(height: 15),
           Text(
-            "Se están mostrando ${filteredEntities.length} de ${totalEntities.toString()} entidades",
-            style: TextStyle(color: Theme.of(context).hintColor),
+            totalEntities > 0
+                ? "Se están mostrando ${filteredEntities.length} de $totalEntities entidades"
+                : "",
+            style: TextStyle(color: Theme.of(context).colorScheme.surface),
           ),
           const SizedBox(height: 15),
           Expanded(
             child: filteredEntities.isEmpty
-                ? const Center(child: Text("No se encontraron entidades."))
+                ? Center(
+                    child: Text(
+                    "No se encontraron entidades.",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.surface),
+                  ))
                 : ListView.builder(
                     itemCount: filteredEntities.length,
                     itemBuilder: (context, index) {

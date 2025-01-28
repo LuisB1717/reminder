@@ -26,7 +26,7 @@ class Reminder extends StatelessWidget {
       title: 'Recordatorios',
       theme: ThemeData(
         shadowColor: Colors.transparent,
-        colorScheme: ColorScheme.light(
+        colorScheme: ColorScheme.dark(
           surface: Colors.grey.shade500,
           secondary: Colors.grey.shade900,
           onSecondary: Colors.white,
@@ -41,7 +41,6 @@ class Reminder extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           foregroundColor: Colors.white,
         ),
-        cardColor: Colors.white,
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       home: const HomePage(),

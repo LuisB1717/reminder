@@ -10,6 +10,8 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     final dateFormat = DateFormat('dd/MM/yy').format(event.date);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
@@ -21,25 +23,27 @@ class EventCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(event.id,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).colorScheme.onSecondary)),
-          Text(dateFormat,
-              style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSecondary
-                      .withAlpha(150))),
-          Text(Strings.address,
-              style: TextStyle(
-                  fontSize: 12,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSecondary
-                      .withAlpha(110))),
+          Text(
+            event.id,
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: colorScheme.onSecondary),
+          ),
+          Text(
+            dateFormat,
+            style: TextStyle(
+              fontSize: 12,
+              color: colorScheme.onSecondary.withAlpha(150),
+            ),
+          ),
+          Text(
+            Strings.address,
+            style: TextStyle(
+              fontSize: 12,
+              color: colorScheme.onSecondary.withAlpha(110),
+            ),
+          ),
         ],
       ),
     );
