@@ -1,11 +1,11 @@
 class Event {
-  final String id;
+  final String? id;
   final DateTime date;
   final String? type;
   final String? entityId;
 
   Event({
-    required this.id,
+    this.id,
     required this.date,
     this.type,
     this.entityId,
@@ -26,7 +26,6 @@ class Event {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
         'date': date.toIso8601String(),
         'type': type,
         'entity_id': entityId,
