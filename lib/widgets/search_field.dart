@@ -15,7 +15,7 @@ class SearchField extends StatelessWidget {
       height: 40.0,
       margin: const EdgeInsets.symmetric(horizontal: 24.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(17.0),
+        borderRadius: BorderRadius.circular(15.0),
         color: Theme.of(context).colorScheme.secondary,
       ),
       child: TextField(
@@ -26,7 +26,7 @@ class SearchField extends StatelessWidget {
           hintText: 'Buscar entidades',
           hintStyle: TextStyle(color: Theme.of(context).hintColor),
           border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 8.0),
+          contentPadding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
           prefixIcon:
               Icon(Icons.search, color: Theme.of(context).hintColor, size: 20),
         ),

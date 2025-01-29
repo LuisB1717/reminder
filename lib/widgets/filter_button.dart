@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/resources/colors.dart';
 import 'package:reminder/widgets/custom_filter.dart';
 
 class FilterButton extends StatefulWidget {
@@ -77,10 +76,9 @@ class _FilterButtonState extends State<FilterButton> {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: AppColors.border),
         ),
         backgroundColor: selectedFilters.isNotEmpty
             ? Theme.of(context).colorScheme.primary

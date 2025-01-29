@@ -44,6 +44,7 @@ class EntityCard extends StatelessWidget {
                       .colorScheme
                       .onSecondary
                       .withAlpha(100))),
+          const SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

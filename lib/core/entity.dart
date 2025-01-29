@@ -44,8 +44,9 @@ class Entity {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
-      'town_id': int.parse(town!),
+      'town_id': town,
       'date': date.toIso8601String(),
       'address': address,
       'province_id': '1304',

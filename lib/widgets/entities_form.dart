@@ -3,13 +3,15 @@ import 'package:reminder/api/district.dart';
 import 'package:reminder/api/town.dart';
 import 'package:reminder/core/district.dart';
 import 'package:reminder/core/entity.dart';
+import 'package:reminder/core/event.dart';
 import 'package:reminder/core/town.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/widgets/filter_button.dart';
+import 'package:uuid/uuid.dart';
 
 class FormEntity extends StatefulWidget {
   final int type;
-  final Function(Entity) onChanged;
+  final Function(Entity, Event) onChanged;
 
   const FormEntity({
     super.key,
@@ -55,7 +57,10 @@ class FormEntityState extends State<FormEntity> {
   }
 
   void _onSave() {
+    final uuid = Uuid();
+
     Entity entity = Entity(
+      id: uuid.v4(),
       type: widget.type.toString(),
       name: _nameController.text,
       phone: _phoneController.text,
@@ -64,7 +69,14 @@ class FormEntityState extends State<FormEntity> {
       town: selectedTown.isEmpty ? null : selectedTown,
       date: _dateSelect ?? DateTime.now(),
     );
-    widget.onChanged(entity);
+
+    Event event = Event(
+      type: widget.type.toString(),
+      date: _dateSelect ?? DateTime.now(),
+      entityId: entity.id,
+    );
+
+    widget.onChanged(entity, event);
   }
 
   @override

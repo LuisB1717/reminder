@@ -15,7 +15,7 @@ class ClearFilter extends StatelessWidget {
     return GestureDetector(
       onTap: () => onClear(),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.secondary,
           borderRadius: BorderRadius.circular(15.0),
