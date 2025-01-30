@@ -24,6 +24,12 @@ Future<List<Entity>> getEntities({
   return entities;
 }
 
+Future<int> getCountEntities() async {
+  final supabase = Supabase.instance.client;
+  final response = await supabase.from("entity").count();
+  return response;
+}
+
 Future<void> createEntity(Entity entity) async {
   final supabase = Supabase.instance.client;
   await supabase.from('entity').insert(entity.toJson());

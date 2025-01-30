@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/api/event.dart';
 import 'package:reminder/core/event.dart';
-import 'package:reminder/widgets/event_card.dart';
 import 'package:reminder/resources/strings.dart';
+import 'package:reminder/widgets/event_card.dart';
 
 class EventScreen extends StatefulWidget {
   const EventScreen({super.key});
@@ -63,7 +63,10 @@ class EventList extends StatelessWidget {
                   _toDayName(
                     currentEvent.date,
                   ),
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).colorScheme.onSecondary,
+                  ),
                 ),
               ),
             EventCard(event: currentEvent),

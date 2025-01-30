@@ -5,9 +5,9 @@ import 'package:reminder/api/town.dart';
 import 'package:reminder/core/district.dart';
 import 'package:reminder/core/entity.dart';
 import 'package:reminder/core/town.dart';
-import 'package:reminder/resources/colors.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/screens/entity_form_screen.dart';
+import 'package:reminder/widgets/clear_filter.dart';
 import 'package:reminder/widgets/entity_card.dart';
 import 'package:reminder/widgets/filter_button.dart';
 import 'package:reminder/widgets/search_field.dart';
@@ -27,6 +27,7 @@ class _EntityScreenState extends State<EntityScreen> {
   List<String> filtersTown = [];
   List<Entity> entities = [];
   List<Entity> filteredEntities = [];
+  int totalEntities = 0;
 
   @override
   void initState() {
@@ -34,6 +35,15 @@ class _EntityScreenState extends State<EntityScreen> {
 
     _loadEntities();
     _loadDistrics();
+    _loadEntitiesCount();
+  }
+
+  void _loadEntitiesCount() async {
+    final count = await getCountEntities();
+
+    setState(() {
+      totalEntities = count;
+    });
   }
 
   void _loadTowns(String districtId) async {
@@ -90,7 +100,7 @@ class _EntityScreenState extends State<EntityScreen> {
               height: 40.0,
               width: 40.0,
               decoration: BoxDecoration(
-                color: AppColors.cardColor,
+                color: Theme.of(context).colorScheme.secondary,
                 shape: BoxShape.circle,
               ),
               child: IconButton(
@@ -108,20 +118,38 @@ class _EntityScreenState extends State<EntityScreen> {
         ],
         title: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            Strings.entities,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          child: Row(
+            children: [
+              Text(
+                Strings.entities,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ),
-        backgroundColor: AppColors.background,
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
+          const SizedBox(height: 15),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 22.0),
             child: Row(
               children: [
-                const SizedBox(width: 12),
+                ClearFilter(
+                  onClear: () => {
+                    setState(() {
+                      selectedDistrict = "";
+                      filtersTown = [];
+                      _loadEntities();
+                      _loadTowns(selectedDistrict);
+                    })
+                  },
+                  isActive:
+                      selectedDistrict.isNotEmpty || filtersTown.isNotEmpty
+                          ? true
+                          : false,
+                ),
+                const SizedBox(width: 8.0),
                 FilterButton(
                   onSelected: (selected) {
                     setState(() {
@@ -132,15 +160,10 @@ class _EntityScreenState extends State<EntityScreen> {
                   },
                   filters: districts,
                   label: Strings.district,
-                  onClear: () {
-                    setState(() {
-                      selectedDistrict = "";
-                      _loadTowns(selectedDistrict);
-                    });
-                    _loadEntities();
-                  },
+                  initialSelected:
+                      selectedDistrict.isNotEmpty ? [selectedDistrict] : [],
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8.0),
                 FilterButton(
                   onSelected: (selected) {
                     setState(() {
@@ -157,23 +180,36 @@ class _EntityScreenState extends State<EntityScreen> {
                     });
                     _loadEntities();
                   },
+                  initialSelected: filtersTown.isNotEmpty ? filtersTown : [],
                 ),
               ],
             ),
           ),
+          const SizedBox(height: 15),
           SearchField(
             controller: searchController,
             onChanged: _onSearchChanged,
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 15),
+          Text(
+            totalEntities > 0
+                ? "Se están mostrando ${filteredEntities.length} de $totalEntities entidades"
+                : "",
+            style: TextStyle(color: Theme.of(context).colorScheme.surface),
+          ),
+          const SizedBox(height: 15),
           Expanded(
             child: filteredEntities.isEmpty
-                ? const Center(child: Text("No se encontraron entidades."))
+                ? Center(
+                    child: Text(
+                    "No se encontraron entidades.",
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.surface),
+                  ))
                 : ListView.builder(
                     itemCount: filteredEntities.length,
                     itemBuilder: (context, index) {
                       final entity = filteredEntities[index];
-
                       return EntityCard(entity: entity);
                     },
                   ),
