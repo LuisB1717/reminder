@@ -13,7 +13,7 @@ class EventCard extends StatelessWidget {
 
     final dateFormat = DateFormat('dd/MM/yy').format(event.date);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       margin: const EdgeInsets.symmetric(horizontal: 24.0),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.secondary,
@@ -24,19 +24,31 @@ class EventCard extends StatelessWidget {
         children: [
           Text(
             event.entity!['name'],
-            style: const TextStyle(fontSize: 16),
+            style: TextStyle(fontSize: 16, color: colorScheme.onSecondary),
           ),
-          Text(event.entity!['address'], style: TextStyle(fontSize: 12)),
+          const SizedBox(height: 3.0),
+          Text(
+            event.entity!['address'],
+            style: TextStyle(
+              fontSize: 12,
+              color: colorScheme.onSecondary.withAlpha(150),
+            ),
+          ),
+          const SizedBox(height: 3.0),
           Text(
             event.type == "0" ? "Cumpleaños" : "Aniversario",
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(
+              fontSize: 12,
+              color: colorScheme.onSecondary.withAlpha(100),
+            ),
           ),
+          const SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
                 dateFormat,
-                style: TextStyle(fontSize: 12),
+                style: TextStyle(fontSize: 12, color: colorScheme.primary),
               )
             ],
           )
