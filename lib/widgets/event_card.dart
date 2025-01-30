@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder/core/event.dart';
 import 'package:reminder/resources/colors.dart';
-import 'package:reminder/resources/strings.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -22,10 +21,24 @@ class EventCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(event.id!,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
-          Text(dateFormat, style: TextStyle(fontSize: 12)),
-          Text(Strings.address, style: TextStyle(fontSize: 12)),
+          Text(
+            event.entity!['name'],
+            style: const TextStyle(fontSize: 16),
+          ),
+          Text(event.entity!['address'], style: TextStyle(fontSize: 12)),
+          Text(
+            event.type == "0" ? "Cumpleaños" : "Aniversario",
+            style: TextStyle(fontSize: 12),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                dateFormat,
+                style: TextStyle(fontSize: 12),
+              )
+            ],
+          )
         ],
       ),
     );
