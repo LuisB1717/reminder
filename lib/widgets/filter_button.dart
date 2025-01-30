@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/resources/colors.dart';
 import 'package:reminder/widgets/custom_filter.dart';
 
 class FilterButton extends StatefulWidget {
   final String label;
-
   final List filters;
   final void Function(List<String>) onSelected;
   final bool isMutipleSelect;
   final Function? onClear;
+  final List<String> initialSelected;
 
   const FilterButton({
     super.key,
@@ -17,6 +16,7 @@ class FilterButton extends StatefulWidget {
     required this.onSelected,
     this.isMutipleSelect = false,
     this.onClear,
+    this.initialSelected = const [],
   });
 
   @override
@@ -25,6 +25,16 @@ class FilterButton extends StatefulWidget {
 
 class _FilterButtonState extends State<FilterButton> {
   List<String> selectedFilters = [];
+
+  @override
+  void didUpdateWidget(covariant FilterButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialSelected != widget.initialSelected) {
+      setState(() {
+        selectedFilters = widget.initialSelected;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,16 +76,19 @@ class _FilterButtonState extends State<FilterButton> {
         );
       },
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
-          side: const BorderSide(color: AppColors.border),
         ),
         backgroundColor: selectedFilters.isNotEmpty
-            ? AppColors.cardColor
-            : AppColors.background,
-        foregroundColor: AppColors.font,
-        iconColor: AppColors.font,
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.secondary,
+        foregroundColor: selectedFilters.isNotEmpty
+            ? Theme.of(context).colorScheme.onPrimary
+            : Theme.of(context).colorScheme.onSecondary,
+        iconColor: selectedFilters.isNotEmpty
+            ? Theme.of(context).colorScheme.onPrimary
+            : Theme.of(context).colorScheme.onSecondary,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

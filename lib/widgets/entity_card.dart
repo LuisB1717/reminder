@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/core/entity.dart';
-import 'package:reminder/resources/colors.dart';
 
 class EntityCard extends StatelessWidget {
   final Entity entity;
@@ -18,25 +17,43 @@ class EntityCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
+        color: Theme.of(context).colorScheme.secondary,
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(entity.name, style: TextStyle(fontSize: 16)),
+          Text(
+            entity.name,
+            style: TextStyle(
+                fontSize: 16, color: Theme.of(context).colorScheme.onSecondary),
+          ),
           const SizedBox(height: 3.0),
-          Text(entity.phone!, style: TextStyle(fontSize: 12)),
+          Text(entity.phone!,
+              style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSecondary
+                      .withAlpha(150))),
           const SizedBox(height: 3.0),
-          Text(entity.address, style: TextStyle(fontSize: 12)),
+          Text(entity.address,
+              style: TextStyle(
+                  fontSize: 12,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSecondary
+                      .withAlpha(100))),
+          const SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
                 entity.town == null
-                    ? '${entity.district}'
+                    ? entity.district.toString()
                     : '${entity.town}, ${entity.district}',
-                style: TextStyle(fontSize: 12, color: AppColors.button),
+                style: TextStyle(
+                    fontSize: 12, color: Theme.of(context).colorScheme.primary),
               )
             ],
           ),

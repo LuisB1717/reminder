@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/resources/colors.dart';
 
 class Menu extends StatelessWidget {
   final int selectedIndex;
@@ -23,32 +22,36 @@ class Menu extends StatelessWidget {
       decoration: hasBorder == false
           ? null
           : BoxDecoration(
-              color: Colors.transparent,
+              color: Theme.of(context).colorScheme.surface,
               borderRadius: BorderRadius.circular(25),
-              border: Border.all(color: AppColors.border, width: 0.5),
             ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: List.generate(
           icons.length,
-          (index) => _buildMenuItem(icons[index], index),
+          (index) => _buildMenuItem(icons[index], index, context),
         ),
       ),
     );
   }
 
-  Widget _buildMenuItem(IconData icon, int index) {
+  Widget _buildMenuItem(IconData icon, int index, context) {
     return GestureDetector(
       onTap: () => onItemTapped(index),
       child: Container(
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color:
-              selectedIndex == index ? AppColors.cardColor : Colors.transparent,
+          color: selectedIndex == index
+              ? Theme.of(context).colorScheme.onSecondary
+              : Colors.transparent,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, size: 24, color: AppColors.iconButton),
+        child: Icon(icon,
+            size: 24,
+            color: selectedIndex == index
+                ? Theme.of(context).colorScheme.secondary.withAlpha(150)
+                : Theme.of(context).colorScheme.onSecondary),
       ),
     );
   }

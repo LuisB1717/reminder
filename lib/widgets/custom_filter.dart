@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reminder/resources/colors.dart';
 
 class FilterOption {
   final String name;
@@ -71,18 +70,12 @@ class CustomFilterState extends State<CustomFilter> {
               ),
       ),
       actions: <Widget>[
-        TextButton(
-          child: widget.filters.isEmpty
-              ? Text(
-                  'Cerrar',
-                  style: TextStyle(color: AppColors.font),
-                )
-              : Text('Limpiar'),
-          onPressed: () {
-            widget.onClear();
-            Navigator.of(context).pop();
-          },
-        ),
+        if (widget.filters.isEmpty && widget.isMultiSelect)
+          TextButton(
+              child: Text('Aceptar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
         if (widget.isMultiSelect && widget.filters.isNotEmpty)
           TextButton(
             child: Text('Aplicar'),
