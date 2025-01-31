@@ -73,6 +73,7 @@ class FormEntityState extends State<FormEntity> {
     Event event = Event(
       type: widget.type.toString(),
       date: _dateSelect ?? DateTime.now(),
+      entity: entity,
     );
 
     widget.onChanged(entity, event);
