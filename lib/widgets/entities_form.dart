@@ -8,6 +8,8 @@ import 'package:reminder/core/town.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/widgets/filter_button.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class FormEntity extends StatefulWidget {
   final int type;
@@ -37,6 +39,7 @@ class FormEntityState extends State<FormEntity> {
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting('es_PE', null);
     _loadDistrics();
   }
 
@@ -95,15 +98,20 @@ class FormEntityState extends State<FormEntity> {
               controller: _nameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide.none),
+                  borderRadius: BorderRadius.circular(
+                    15.0,
+                  ),
+                  borderSide: BorderSide.none,
+                ),
                 hintText: widget.type == 0 ? Strings.name : 'Razon social',
                 filled: true,
-                fillColor: const Color(0xFFEFEFEF),
+                fillColor: Theme.of(context).colorScheme.secondary,
                 suffixIcon: Icon(
                   widget.type == 0 ? Icons.person : Icons.business,
                 ),
               ),
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return Strings.advertName;
@@ -119,14 +127,16 @@ class FormEntityState extends State<FormEntity> {
               controller: _phoneController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide.none),
                 hintText: Strings.phone,
                 filled: true,
-                fillColor: const Color(0xFFEFEFEF),
+                fillColor: Theme.of(context).colorScheme.secondary,
                 suffixIcon: Icon(Icons.phone_android),
               ),
               keyboardType: TextInputType.phone,
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return Strings.advertPhone;
@@ -142,13 +152,15 @@ class FormEntityState extends State<FormEntity> {
               controller: _adressController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide.none),
                 hintText: Strings.address,
                 filled: true,
-                fillColor: const Color(0xFFEFEFEF),
+                fillColor: Theme.of(context).colorScheme.secondary,
                 suffixIcon: Icon(Icons.location_on_outlined),
               ),
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return Strings.advertAdress;
@@ -195,14 +207,16 @@ class FormEntityState extends State<FormEntity> {
             TextFormField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
+                    borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide.none),
                 hintText: Strings.date,
                 filled: true,
-                fillColor: const Color(0xFFEFEFEF),
+                fillColor: Theme.of(context).colorScheme.secondary,
                 suffixIcon: Icon(Icons.calendar_month),
               ),
               readOnly: true,
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(
                   context: context,
@@ -219,7 +233,8 @@ class FormEntityState extends State<FormEntity> {
               },
               controller: TextEditingController(
                 text: _dateSelect != null
-                    ? _dateSelect!.toLocal().toString().split(' ')[0]
+                    ? DateFormat("d 'de' MMMM 'del' y", 'es_PE')
+                        .format(_dateSelect!)
                     : '',
               ),
             ),
