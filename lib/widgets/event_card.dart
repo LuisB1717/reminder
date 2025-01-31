@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:reminder/core/event.dart';
+import 'package:reminder/resources/strings.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
@@ -29,7 +30,9 @@ class EventCard extends StatelessWidget {
           ),
           const SizedBox(height: 3.0),
           Text(
-            event.entity!.address,
+            event.entity!.address.isNotEmpty
+                ? event.entity!.address
+                : Strings.noAddress,
             style: TextStyle(
               fontSize: 12,
               color: colorScheme.onSecondary.withAlpha(150),
@@ -47,7 +50,7 @@ class EventCard extends StatelessWidget {
               ),
               const SizedBox(width: 8.0),
               Text(
-                '$dateFormat ',
+                dateFormat.toString(),
                 style: TextStyle(fontSize: 12, color: colorScheme.primary),
               )
             ],

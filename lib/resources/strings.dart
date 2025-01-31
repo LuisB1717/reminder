@@ -30,4 +30,6 @@ class Strings {
   static const String confirm = 'Confirmar';
   static const String cancel = 'Cancelar';
   static const String queEnt = '¿Desea agregar esta entidad?';
+  static const String emptyEvent = 'No se encontraron eventos recientes.';
+  static const String noAddress = 'No se especifica dirección';
 }

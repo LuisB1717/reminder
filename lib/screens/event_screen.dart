@@ -18,9 +18,13 @@ class _EventScreenState extends State<EventScreen> {
       appBar: AppBar(
         title: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            Strings.reminders,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          child: Row(
+            children: [
+              Text(
+                Strings.reminders,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ),
       ),
@@ -44,11 +48,35 @@ class EventList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final maxDate = today.add(Duration(days: 3));
+
+    final filteredEvents = events
+        .where((event) =>
+            event.date.isAfter(today.subtract(Duration(days: 1))) &&
+            event.date.isBefore(maxDate.add(Duration(days: 1))))
+        .toList();
+
+    final sortedEvents = filteredEvents
+      ..sort((a, b) => a.date.compareTo(b.date));
+
+    if (sortedEvents.isEmpty) {
+      return Center(
+        child: Text(
+          Strings.emptyEvent,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSecondary,
+          ),
+        ),
+      );
+    }
+
     return ListView.separated(
-      itemCount: events.length,
+      itemCount: sortedEvents.length,
       itemBuilder: (context, index) {
-        final currentEvent = events[index];
-        final previousEvent = index - 1 < 0 ? null : events[index - 1];
+        final currentEvent = sortedEvents[index];
+        final previousEvent = index - 1 < 0 ? null : sortedEvents[index - 1];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -63,7 +91,7 @@ class EventList extends StatelessWidget {
                     currentEvent.date,
                   ),
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 16,
                     color: Theme.of(context).colorScheme.onSecondary,
                   ),
                 ),
@@ -73,7 +101,7 @@ class EventList extends StatelessWidget {
         );
       },
       separatorBuilder: (context, index) {
-        return const SizedBox(height: 8.0);
+        return const SizedBox(height: 20.0);
       },
     );
   }
