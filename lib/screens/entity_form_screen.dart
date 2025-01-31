@@ -75,21 +75,14 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               icon: const Icon(Icons.close),
               onPressed: () => Navigator.pop(context),
             ),
-            rightIcon: _isCheckForm
-                ? IconButton(
-                    icon: Icon(
-                      Icons.check_box_sharp,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    onPressed: () => _showSaveDialog(context, entity),
-                  )
-                : IconButton(
-                    icon: Icon(
-                      Icons.check,
-                      color: Theme.of(context).colorScheme.surface,
-                    ),
-                    onPressed: () => {},
-                  ),
+            rightIcon: IconButton(
+              icon: Icon(Icons.check,
+                  color: _isCheckForm
+                      ? Theme.of(context).colorScheme.onSecondary
+                      : Theme.of(context).hintColor),
+              onPressed:
+                  _isCheckForm ? () => _showSaveDialog(context, entity) : null,
+            ),
           ),
           Menu(
             selectedIndex: _selectedType,
@@ -128,8 +121,21 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(Strings.confirm, textAlign: TextAlign.center),
-          content: const Text(Strings.queEnt, textAlign: TextAlign.center),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          title: Text(
+            Strings.confirm,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
+          ),
+          content: Text(
+            Strings.queEnt,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
+          ),
           actions: <Widget>[
             Center(
               child: Row(
@@ -137,18 +143,26 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                 children: [
                   TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Theme.of(context).colorScheme.primary),
+                    child: Text(
+                      Strings.cancel,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
-                    child: const Text(Strings.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                        backgroundColor: Theme.of(context).colorScheme.primary),
+                    child: Text(
+                      Strings.save,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
-                    child: Text(Strings.save),
                     onPressed: () {
                       _onSave();
                       Navigator.pop(context);

@@ -35,7 +35,6 @@ class FormEntityState extends State<FormEntity> {
   String selectedDistrict = "";
   String selectedTown = "";
   DateTime? _dateSelect;
-  bool checkForm = false;
 
   @override
   void initState() {
@@ -62,6 +61,7 @@ class FormEntityState extends State<FormEntity> {
 
   void _onSave() {
     final uuid = Uuid();
+    bool checkForm = false;
 
     Entity entity = Entity(
       id: uuid.v4(),
