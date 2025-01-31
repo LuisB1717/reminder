@@ -19,8 +19,9 @@ class Bar extends StatelessWidget {
   static const double none = 0.0;
   static const double tiny = 4.0;
   static const double largeFont = 18.0;
+  static const double top = 60.0;
 
-  Widget get content {
+  Widget content(BuildContext context) {
     return Row(
       mainAxisAlignment:
           centered ? MainAxisAlignment.center : MainAxisAlignment.start,
@@ -34,6 +35,7 @@ class Bar extends StatelessWidget {
             style: TextStyle(
               fontSize: largeFont,
               fontWeight: FontWeight.bold,
+              color: Theme.of(context).appBarTheme.foregroundColor,
             ),
           ),
         ),
@@ -66,7 +68,7 @@ class Bar extends StatelessWidget {
       margin: const EdgeInsets.only(
         left: tiny,
         right: tiny,
-        top: regular,
+        top: top,
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: medium,
@@ -82,7 +84,7 @@ class Bar extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(none),
-              child: content,
+              child: content(context),
             ),
           ),
           if (rightIcon != null) Container(child: actions),

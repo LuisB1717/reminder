@@ -52,7 +52,12 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error al guardar la entidad: $e'),
+          content: Center(
+            child: Text(
+              'Error al guardar la entidad',
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            ),
+          ),
         ),
       );
     }
