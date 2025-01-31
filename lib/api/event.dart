@@ -3,8 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<List<Event>> getAllEvents() async {
   final supabase = Supabase.instance.client;
-  final rows =
-      await supabase.from('event').select(' * , entity ( name, address ) ');
+  final rows = await supabase.from('event').select(' * , entity (*) ');
   final events = rows.map(Event.from).toList();
 
   return events;

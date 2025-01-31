@@ -11,7 +11,8 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final dateFormat = DateFormat('dd/MM/yy').format(event.date);
+    final dateFormat = DateFormat("EE, dd 'de' MMMM").format(event.date);
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
       margin: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -23,31 +24,30 @@ class EventCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            event.entity!['name'],
+            event.entity!.name,
             style: TextStyle(fontSize: 16, color: colorScheme.onSecondary),
           ),
           const SizedBox(height: 3.0),
           Text(
-            event.entity!['address'],
+            event.entity!.address,
             style: TextStyle(
               fontSize: 12,
               color: colorScheme.onSecondary.withAlpha(150),
-            ),
-          ),
-          const SizedBox(height: 3.0),
-          Text(
-            event.type == "0" ? "Cumpleaños" : "Aniversario",
-            style: TextStyle(
-              fontSize: 12,
-              color: colorScheme.onSecondary.withAlpha(100),
             ),
           ),
           const SizedBox(height: 8.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              Icon(
+                event.type == "0"
+                    ? Icons.cake_rounded
+                    : Icons.card_giftcard_rounded,
+                color: colorScheme.primary,
+              ),
+              const SizedBox(width: 8.0),
               Text(
-                dateFormat,
+                '$dateFormat ',
                 style: TextStyle(fontSize: 12, color: colorScheme.primary),
               )
             ],

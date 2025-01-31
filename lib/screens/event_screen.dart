@@ -49,7 +49,6 @@ class EventList extends StatelessWidget {
       itemBuilder: (context, index) {
         final currentEvent = events[index];
         final previousEvent = index - 1 < 0 ? null : events[index - 1];
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -82,7 +81,9 @@ class EventList extends StatelessWidget {
 
 _toDayName(DateTime date) {
   final now = DateTime.now();
-  final difference = date.difference(now).inDays;
+  final today = DateTime(now.year, now.month, now.day);
+
+  final difference = date.difference(today).inDays;
 
   if (difference == 0) return Strings.today;
   if (difference == 1) return Strings.tomorrow;
