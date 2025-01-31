@@ -35,55 +35,108 @@ class CustomFilter extends StatefulWidget {
 class CustomFilterState extends State<CustomFilter> {
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text(widget.title),
-      content: SingleChildScrollView(
-        child: (widget.filters.isEmpty)
-            ? Text("Este distrito no cuenta con centros poblados.")
-            : ListBody(
-                children: widget.filters.map(
-                  (filter) {
-                    if (widget.isMultiSelect) {
-                      return CheckboxListTile(
-                        title: Text(filter.name),
-                        value: widget.selectedFilters.contains(filter.id),
-                        onChanged: (bool? value) {
-                          widget.onChanged(filter.id, value!);
-                          setState(() {});
-                        },
-                      );
-                    }
-                    return RadioListTile(
-                      title: Text(filter.name),
-                      value: filter.id,
-                      groupValue: widget.selectedFilters.isEmpty
-                          ? null
-                          : widget.selectedFilters.first,
-                      onChanged: (String? value) {
-                        if (value == null) return;
-                        widget.onChanged(filter.id, null);
-                        Navigator.of(context).pop([value]);
-                      },
-                    );
-                  },
-                ).toList(),
-              ),
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
       ),
-      actions: <Widget>[
-        if (widget.filters.isEmpty && widget.isMultiSelect)
-          TextButton(
-              child: Text('Aceptar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-        if (widget.isMultiSelect && widget.filters.isNotEmpty)
-          TextButton(
-            child: Text('Aplicar'),
-            onPressed: () {
-              Navigator.of(context).pop(widget.selectedFilters);
-            },
-          ),
-      ],
+      child: Container(
+        color: Theme.of(context).colorScheme.secondary.withAlpha(220),
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSecondary,
+              ),
+            ),
+            const SizedBox(height: 20),
+            widget.filters.isEmpty
+                ? Text(
+                    "Este distrito no cuenta con centros poblados.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                  )
+                : Flexible(
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.6,
+                      ),
+                      child: ListView(
+                        shrinkWrap: true,
+                        children: widget.filters.map((filter) {
+                          if (widget.isMultiSelect) {
+                            return CheckboxListTile(
+                              title: Text(
+                                filter.name,
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSecondary),
+                              ),
+                              value: widget.selectedFilters.contains(filter.id),
+                              onChanged: (bool? value) {
+                                widget.onChanged(filter.id, value!);
+                                setState(() {});
+                              },
+                            );
+                          }
+                          return RadioListTile(
+                            title: Text(
+                              filter.name,
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSecondary),
+                            ),
+                            value: filter.id,
+                            groupValue: widget.selectedFilters.isEmpty
+                                ? null
+                                : widget.selectedFilters.first,
+                            onChanged: (String? value) {
+                              if (value == null) return;
+                              widget.onChanged(filter.id, null);
+                              Navigator.of(context).pop([]);
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+            const SizedBox(height: 30),
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  child: Text(
+                    widget.filters.isEmpty && widget.isMultiSelect
+                        ? 'Aceptar'
+                        : 'Confirmar',
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
