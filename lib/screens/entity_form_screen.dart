@@ -94,10 +94,10 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               children: [
                 FormEntity(
                   type: _selectedType,
-                  onChanged: (entity, event) {
+                  onChanged: (payloadEntity, payloandEvent) {
                     setState(() {
-                      entity = entity;
-                      event = event;
+                      entity = payloadEntity;
+                      event = payloandEvent;
                     });
                   },
                 ),
