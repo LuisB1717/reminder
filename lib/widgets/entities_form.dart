@@ -13,7 +13,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 class FormEntity extends StatefulWidget {
   final int type;
-  final Function(Entity, Event) onChanged;
+  final Function(Entity, Event, bool) onChanged;
 
   const FormEntity({
     super.key,
@@ -35,6 +35,7 @@ class FormEntityState extends State<FormEntity> {
   String selectedDistrict = "";
   String selectedTown = "";
   DateTime? _dateSelect;
+  bool checkForm = false;
 
   @override
   void initState() {
@@ -79,7 +80,14 @@ class FormEntityState extends State<FormEntity> {
       entity: entity,
     );
 
-    widget.onChanged(entity, event);
+    if (entity.name.isNotEmpty &&
+        entity.address.isNotEmpty &&
+        entity.district!.isNotEmpty) {
+      checkForm = true;
+    } else {
+      checkForm = false;
+    }
+    widget.onChanged(entity, event, checkForm);
   }
 
   @override

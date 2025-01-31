@@ -20,6 +20,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
   late Event event;
   int _selectedType = 0;
   late PageController _pageFormController;
+  bool _isCheckForm = false;
 
   @override
   void initState() {
@@ -70,18 +71,25 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
         children: [
           Bar(
             title: Strings.addEntity,
-            centered: true,
             leftIcon: IconButton(
               icon: const Icon(Icons.close),
               onPressed: () => Navigator.pop(context),
             ),
-            rightIcon: IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () => _showSaveDialog(
-                context,
-                entity,
-              ),
-            ),
+            rightIcon: _isCheckForm
+                ? IconButton(
+                    icon: Icon(
+                      Icons.check_box_sharp,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    onPressed: () => _showSaveDialog(context, entity),
+                  )
+                : IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      color: Theme.of(context).colorScheme.surface,
+                    ),
+                    onPressed: () => {},
+                  ),
           ),
           Menu(
             selectedIndex: _selectedType,
@@ -99,10 +107,11 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               children: [
                 FormEntity(
                   type: _selectedType,
-                  onChanged: (payloadEntity, payloandEvent) {
+                  onChanged: (payload, payload2, check) {
                     setState(() {
-                      entity = payloadEntity;
-                      event = payloandEvent;
+                      entity = payload;
+                      event = payload2;
+                      _isCheckForm = check;
                     });
                   },
                 ),
@@ -127,13 +136,19 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
                     child: const Text(Strings.cancel),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: const Text(Strings.save),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    child: Text(Strings.save),
                     onPressed: () {
                       _onSave();
                       Navigator.pop(context);
