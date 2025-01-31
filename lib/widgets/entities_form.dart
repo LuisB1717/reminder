@@ -39,7 +39,7 @@ class FormEntityState extends State<FormEntity> {
   @override
   void initState() {
     super.initState();
-    initializeDateFormatting('es_ES', null);
+    initializeDateFormatting('es_PE', null);
     _loadDistrics();
   }
 
@@ -98,8 +98,11 @@ class FormEntityState extends State<FormEntity> {
               controller: _nameController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide.none),
+                  borderRadius: BorderRadius.circular(
+                    15.0,
+                  ),
+                  borderSide: BorderSide.none,
+                ),
                 hintText: widget.type == 0 ? Strings.name : 'Razon social',
                 filled: true,
                 fillColor: Theme.of(context).colorScheme.secondary,
@@ -230,7 +233,7 @@ class FormEntityState extends State<FormEntity> {
               },
               controller: TextEditingController(
                 text: _dateSelect != null
-                    ? DateFormat("d 'de' MMMM 'del' y", 'es_ES')
+                    ? DateFormat("d 'de' MMMM 'del' y", 'es_PE')
                         .format(_dateSelect!)
                     : '',
               ),

@@ -79,7 +79,7 @@ class Reminder extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('es', 'ES'),
+        Locale('es', 'PE'),
       ],
     );
   }
