@@ -30,9 +30,16 @@ void main() async {
   final apnsToken = await FirebaseMessaging.instance.getToken();
 
   if (apnsToken != null) {
-    await Supabase.instance.client
+    final tokens = await Supabase.instance.client
         .from('notification_tokens')
-        .insert({'token': apnsToken});
+        .select()
+        .eq('token', apnsToken);
+
+    if (tokens.isEmpty) {
+      await Supabase.instance.client
+          .from('notification_tokens')
+          .insert({'token': apnsToken});
+    }
   }
 
   FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
