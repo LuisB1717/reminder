@@ -20,6 +20,10 @@ class _EventScreenState extends State<EventScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Icon(Icons.calendar_month),
+              ),
               Text(
                 Strings.reminders,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
