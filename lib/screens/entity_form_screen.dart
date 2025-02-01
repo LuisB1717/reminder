@@ -100,10 +100,10 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               children: [
                 FormEntity(
                   type: _selectedType,
-                  onChanged: (payload, payload2, check) {
+                  onChanged: (payloadEntity, payloadEvent, check) {
                     setState(() {
-                      entity = payload;
-                      event = payload2;
+                      entity = payloadEntity;
+                      event = payloadEvent;
                       _isCheckForm = check;
                     });
                   },

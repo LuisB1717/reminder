@@ -18,11 +18,11 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 120.0, vertical: 14),
-      height: 60,
+      height: 70,
       decoration: hasBorder == false
           ? null
           : BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.surface.withAlpha(180),
               borderRadius: BorderRadius.circular(25),
             ),
       child: Row(

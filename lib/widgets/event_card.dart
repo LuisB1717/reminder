@@ -12,7 +12,8 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    final dateFormat = DateFormat("EE, dd 'de' MMMM").format(event.date);
+    final dateFormat =
+        DateFormat("EE, dd 'de' MMMM", "es_PE").format(event.date);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
