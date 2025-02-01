@@ -35,7 +35,7 @@ class EventCard extends StatelessWidget {
                 ? event.entity!.address
                 : Strings.noAddress,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: 14,
               color: colorScheme.onSecondary.withAlpha(150),
             ),
           ),
@@ -52,7 +52,10 @@ class EventCard extends StatelessWidget {
               const SizedBox(width: 8.0),
               Text(
                 dateFormat.toString(),
-                style: TextStyle(fontSize: 12, color: colorScheme.primary),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colorScheme.primary,
+                ),
               )
             ],
           )

@@ -97,6 +97,7 @@ class EventList extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     color: Theme.of(context).colorScheme.onSecondary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

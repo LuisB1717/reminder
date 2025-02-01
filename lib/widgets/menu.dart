@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 class Menu extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
-  final bool hasBorder;
+  final bool withBackground;
+  final bool colored;
   final List<IconData> icons;
 
   const Menu({
     super.key,
     required this.selectedIndex,
     required this.onItemTapped,
-    this.hasBorder = false,
+    this.withBackground = false,
+    this.colored = false,
     required this.icons,
   });
 
@@ -19,7 +21,7 @@ class Menu extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 120.0, vertical: 14),
       height: 70,
-      decoration: hasBorder == false
+      decoration: withBackground == false
           ? null
           : BoxDecoration(
               color: Theme.of(context).colorScheme.surface.withAlpha(180),
@@ -36,6 +38,8 @@ class Menu extends StatelessWidget {
   }
 
   Widget _buildMenuItem(IconData icon, int index, context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return GestureDetector(
       onTap: () => onItemTapped(index),
       child: Container(
@@ -43,15 +47,19 @@ class Menu extends StatelessWidget {
         height: 40,
         decoration: BoxDecoration(
           color: selectedIndex == index
-              ? Theme.of(context).colorScheme.onSecondary
-              : Colors.transparent,
+              ? colored == true
+                  ? colorScheme.primary
+                  : colorScheme.onSecondary
+              : null,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon,
-            size: 24,
-            color: selectedIndex == index
-                ? Theme.of(context).colorScheme.secondary.withAlpha(150)
-                : Theme.of(context).colorScheme.onSecondary),
+        child: Icon(
+          icon,
+          size: 24,
+          color: selectedIndex == index
+              ? colorScheme.secondary
+              : colorScheme.onSecondary,
+        ),
       ),
     );
   }

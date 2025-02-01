@@ -31,7 +31,7 @@ class EntityCard extends StatelessWidget {
           const SizedBox(height: 3.0),
           Text(entity.phone!,
               style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: Theme.of(context)
                       .colorScheme
                       .onSecondary
@@ -39,7 +39,7 @@ class EntityCard extends StatelessWidget {
           const SizedBox(height: 3.0),
           Text(entity.address,
               style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 14,
                   color: Theme.of(context)
                       .colorScheme
                       .onSecondary
@@ -53,7 +53,9 @@ class EntityCard extends StatelessWidget {
                     ? entity.district.toString()
                     : '${entity.town}, ${entity.district}',
                 style: TextStyle(
-                    fontSize: 12, color: Theme.of(context).colorScheme.primary),
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               )
             ],
           ),

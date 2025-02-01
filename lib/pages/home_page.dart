@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: Menu(
         selectedIndex: _selectedIndex,
         onItemTapped: _onItemTapped,
-        hasBorder: true,
+        withBackground: true,
         icons: const [Icons.home_outlined, Icons.person_outlined],
       ),
     );
