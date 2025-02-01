@@ -4,17 +4,16 @@ class Bar extends StatelessWidget {
   const Bar({
     super.key,
     required this.title,
-    this.centered = false,
     this.leftIcon,
     this.rightIcon,
   });
 
   final String title;
-  final bool centered;
   final Widget? leftIcon;
   final dynamic rightIcon;
 
   static const double regular = 16.0;
+  static const double extra = 20.0;
   static const double medium = 12.0;
   static const double none = 0.0;
   static const double tiny = 4.0;
@@ -23,8 +22,7 @@ class Bar extends StatelessWidget {
 
   Widget content(BuildContext context) {
     return Row(
-      mainAxisAlignment:
-          centered ? MainAxisAlignment.center : MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
@@ -40,7 +38,7 @@ class Bar extends StatelessWidget {
           ),
         ),
         const Padding(
-          padding: EdgeInsets.only(left: medium),
+          padding: EdgeInsets.only(left: extra),
         ),
       ],
     );

@@ -20,6 +20,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
   late Event event;
   int _selectedType = 0;
   late PageController _pageFormController;
+  bool _isCheckForm = false;
 
   @override
   void initState() {
@@ -70,17 +71,17 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
         children: [
           Bar(
             title: Strings.addEntity,
-            centered: true,
             leftIcon: IconButton(
               icon: const Icon(Icons.close),
               onPressed: () => Navigator.pop(context),
             ),
             rightIcon: IconButton(
-              icon: const Icon(Icons.check),
-              onPressed: () => _showSaveDialog(
-                context,
-                entity,
-              ),
+              icon: Icon(Icons.check,
+                  color: _isCheckForm
+                      ? Theme.of(context).colorScheme.onSecondary
+                      : Theme.of(context).hintColor),
+              onPressed:
+                  _isCheckForm ? () => _showSaveDialog(context, entity) : null,
             ),
           ),
           Menu(
@@ -99,10 +100,11 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               children: [
                 FormEntity(
                   type: _selectedType,
-                  onChanged: (payloadEntity, payloandEvent) {
+                  onChanged: (payloadEntity, payloadEvent, check) {
                     setState(() {
                       entity = payloadEntity;
-                      event = payloandEvent;
+                      event = payloadEvent;
+                      _isCheckForm = check;
                     });
                   },
                 ),
@@ -119,21 +121,48 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text(Strings.confirm, textAlign: TextAlign.center),
-          content: const Text(Strings.queEnt, textAlign: TextAlign.center),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+          title: Text(
+            Strings.confirm,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
+          ),
+          content: Text(
+            Strings.queEnt,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
+            ),
+          ),
           actions: <Widget>[
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    child: const Text(Strings.cancel),
+                    style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary),
+                    child: Text(
+                      Strings.cancel,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: const Text(Strings.save),
+                    style: TextButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary),
+                    child: Text(
+                      Strings.save,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
                     onPressed: () {
                       _onSave();
                       Navigator.pop(context);
