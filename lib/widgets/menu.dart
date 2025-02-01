@@ -22,7 +22,7 @@ class Menu extends StatelessWidget {
       decoration: hasBorder == false
           ? null
           : BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
+              color: Theme.of(context).colorScheme.surface.withAlpha(180),
               borderRadius: BorderRadius.circular(25),
             ),
       child: Row(
