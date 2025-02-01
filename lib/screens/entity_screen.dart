@@ -62,10 +62,12 @@ class _EntityScreenState extends State<EntityScreen> {
           : null,
     );
 
-    setState(() {
-      entities = fetchedEntities;
-      filteredEntities = fetchedEntities;
-    });
+    if (mounted) {
+      setState(() {
+        entities = fetchedEntities;
+        filteredEntities = fetchedEntities;
+      });
+    }
   }
 
   void _loadDistrics() async {

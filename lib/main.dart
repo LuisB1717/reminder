@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:reminder/pages/home_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'firebase_options.dart';
 
@@ -57,7 +57,7 @@ class Reminder extends StatelessWidget {
         shadowColor: Colors.transparent,
         colorScheme: ColorScheme.dark(
           surface: Colors.grey.shade500,
-          secondary: Colors.grey.shade900,
+          secondary: const Color.fromRGBO(33, 33, 33, 1),
           onSecondary: Colors.white,
           primary: const Color(0XFFe2ff41),
           onPrimary: Colors.black,
