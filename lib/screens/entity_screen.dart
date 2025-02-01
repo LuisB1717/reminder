@@ -157,6 +157,7 @@ class _EntityScreenState extends State<EntityScreen> {
                     setState(() {
                       selectedDistrict = selected.first;
                       _loadTowns(selected.first);
+                      filtersTown = [];
                       _loadEntities();
                     });
                   },

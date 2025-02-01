@@ -67,7 +67,7 @@ class _FilterButtonState extends State<FilterButton> {
                   widget.onSelected(selectedFilters);
                 });
               },
-              title: "Distritos",
+              title: widget.label,
               filters: options,
               selectedFilters: selectedFilters,
               isMultiSelect: widget.isMutipleSelect,

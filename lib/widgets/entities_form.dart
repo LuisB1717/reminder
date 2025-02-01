@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:reminder/api/district.dart';
 import 'package:reminder/api/town.dart';
 import 'package:reminder/core/district.dart';
@@ -8,8 +10,6 @@ import 'package:reminder/core/town.dart';
 import 'package:reminder/resources/strings.dart';
 import 'package:reminder/widgets/filter_button.dart';
 import 'package:uuid/uuid.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class FormEntity extends StatefulWidget {
   final int type;
@@ -30,6 +30,7 @@ class FormEntityState extends State<FormEntity> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _adressController = TextEditingController();
+
   List<District> districts = [];
   List<Town> towns = [];
   String selectedDistrict = "";
@@ -45,6 +46,7 @@ class FormEntityState extends State<FormEntity> {
 
   void _loadTowns(String districtId) async {
     final fetchTowns = await getTowns(districtId);
+
     if (mounted) {
       setState(() {
         towns = fetchTowns;
@@ -182,17 +184,13 @@ class FormEntityState extends State<FormEntity> {
                 setState(() {
                   selectedDistrict = selected.first;
                   _loadTowns(selected.first);
+                  selectedTown = "";
                 });
               },
               filters: districts,
               label: Strings.district,
-              onClear: () {
-                setState(
-                  () {
-                    selectedDistrict = "";
-                  },
-                );
-              },
+              initialSelected:
+                  selectedDistrict.isNotEmpty ? [selectedDistrict] : [],
             ),
             SizedBox(height: 10),
             FilterButton(
@@ -203,13 +201,7 @@ class FormEntityState extends State<FormEntity> {
               },
               filters: towns,
               label: Strings.town,
-              onClear: () {
-                setState(
-                  () {
-                    selectedTown = "";
-                  },
-                );
-              },
+              initialSelected: selectedTown.isNotEmpty ? [selectedTown] : [],
             ),
             SizedBox(height: 10),
             TextFormField(

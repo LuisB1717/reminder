@@ -103,6 +103,7 @@ class CustomFilterState extends State<CustomFilter> {
                               if (value == null) return;
                               widget.onChanged(filter.id, null);
                               Navigator.of(context).pop([]);
+                              setState(() {});
                             },
                           );
                         }).toList(),
