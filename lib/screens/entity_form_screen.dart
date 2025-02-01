@@ -84,6 +84,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                   _isCheckForm ? () => _showSaveDialog(context, entity) : null,
             ),
           ),
+          const SizedBox(height: 12),
           Menu(
             selectedIndex: _selectedType,
             onItemTapped: _onItemTapped,
@@ -91,6 +92,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               Icons.person_outlined,
               Icons.business_center_outlined,
             ],
+            colored: true,
           ),
           const SizedBox(height: 12),
           Expanded(

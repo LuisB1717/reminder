@@ -94,11 +94,14 @@ class FormEntityState extends State<FormEntity> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Form(
         key: _formKey,
         child: ListView(
+          padding: const EdgeInsets.all(0.0),
           shrinkWrap: true,
           children: [
             TextFormField(
@@ -107,6 +110,10 @@ class FormEntityState extends State<FormEntity> {
               },
               controller: _nameController,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 16.0,
+                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(
                     15.0,
@@ -114,14 +121,15 @@ class FormEntityState extends State<FormEntity> {
                   borderSide: BorderSide.none,
                 ),
                 hintText: widget.type == 0 ? Strings.name : 'Razon social',
+                hintStyle: TextStyle(color: Theme.of(context).hintColor),
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.secondary,
+                fillColor: colorScheme.secondary,
                 suffixIcon: Icon(
                   widget.type == 0 ? Icons.person : Icons.business,
+                  color: colorScheme.onSecondary.withAlpha(150),
                 ),
               ),
-              style:
-                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              style: TextStyle(color: colorScheme.onSecondary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return Strings.advertName;
@@ -129,24 +137,31 @@ class FormEntityState extends State<FormEntity> {
                 return null;
               },
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 16.0),
             TextFormField(
               onChanged: (value) {
                 _onSave();
               },
               controller: _phoneController,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 16.0,
+                ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide.none),
                 hintText: Strings.phone,
+                hintStyle: TextStyle(color: Theme.of(context).hintColor),
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.secondary,
-                suffixIcon: Icon(Icons.phone_android),
+                fillColor: colorScheme.secondary,
+                suffixIcon: Icon(
+                  Icons.phone_android,
+                  color: colorScheme.onSecondary.withAlpha(150),
+                ),
               ),
               keyboardType: TextInputType.phone,
-              style:
-                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              style: TextStyle(color: colorScheme.onSecondary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return Strings.advertPhone;
@@ -154,23 +169,30 @@ class FormEntityState extends State<FormEntity> {
                 return null;
               },
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 16.0),
             TextFormField(
               onChanged: (value) {
                 _onSave();
               },
               controller: _adressController,
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 16.0,
+                ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15.0),
                     borderSide: BorderSide.none),
                 hintText: Strings.address,
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.secondary,
-                suffixIcon: Icon(Icons.location_on_outlined),
+                hintStyle: TextStyle(color: Theme.of(context).hintColor),
+                fillColor: colorScheme.secondary,
+                suffixIcon: Icon(
+                  Icons.location_on_outlined,
+                  color: colorScheme.onSecondary.withAlpha(150),
+                ),
               ),
-              style:
-                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              style: TextStyle(color: colorScheme.onSecondary),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return Strings.advertAdress;
@@ -178,7 +200,7 @@ class FormEntityState extends State<FormEntity> {
                 return null;
               },
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 12.0),
             FilterButton(
               onSelected: (selected) {
                 setState(() {
@@ -192,7 +214,7 @@ class FormEntityState extends State<FormEntity> {
               initialSelected:
                   selectedDistrict.isNotEmpty ? [selectedDistrict] : [],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 8.0),
             FilterButton(
               onSelected: (selected) {
                 setState(() {
@@ -203,20 +225,28 @@ class FormEntityState extends State<FormEntity> {
               label: Strings.town,
               initialSelected: selectedTown.isNotEmpty ? [selectedTown] : [],
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 12.0),
             TextFormField(
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 0,
+                  horizontal: 16.0,
+                ),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide.none),
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: BorderSide.none,
+                ),
                 hintText: Strings.date,
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.secondary,
-                suffixIcon: Icon(Icons.calendar_month),
+                fillColor: colorScheme.secondary,
+                hintStyle: TextStyle(color: Theme.of(context).hintColor),
+                suffixIcon: Icon(
+                  Icons.calendar_month,
+                  color: colorScheme.onSecondary.withAlpha(150),
+                ),
               ),
               readOnly: true,
-              style:
-                  TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+              style: TextStyle(color: colorScheme.onSecondary),
               onTap: () async {
                 DateTime? pickedDate = await showDatePicker(
                   context: context,
