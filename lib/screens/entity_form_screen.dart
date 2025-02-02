@@ -136,6 +136,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSecondary,
+              fontSize: 16,
             ),
           ),
           actions: <Widget>[
@@ -144,12 +145,12 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
-                    style: TextButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary),
                     child: Text(
                       Strings.cancel,
                       style: TextStyle(
-                        color: Theme.of(context).colorScheme.onPrimary,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     onPressed: () {
@@ -163,6 +164,8 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                       Strings.save,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     onPressed: () {

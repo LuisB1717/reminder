@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reminder/api/district.dart';
 import 'package:reminder/api/entity.dart';
+import 'package:reminder/api/event.dart';
 import 'package:reminder/api/town.dart';
 import 'package:reminder/core/district.dart';
 import 'package:reminder/core/entity.dart';
@@ -91,6 +92,19 @@ class _EntityScreenState extends State<EntityScreen> {
     });
   }
 
+  void _onDelete(Entity entity) async {
+    try {
+      await deleteEvent(entity.id!);
+      await deleteEntity(entity);
+      setState(() {
+        filteredEntities.remove(entity);
+        totalEntities--;
+      });
+    } catch (e) {
+      if (!mounted) return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,7 +124,9 @@ class _EntityScreenState extends State<EntityScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => EntityFormScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => EntityFormScreen(),
+                    ),
                   );
                 },
                 icon: Icon(Icons.add),
@@ -213,7 +229,16 @@ class _EntityScreenState extends State<EntityScreen> {
                     itemCount: filteredEntities.length,
                     itemBuilder: (context, index) {
                       final entity = filteredEntities[index];
-                      return EntityCard(entity: entity);
+                      return EntityCard(
+                        entity: entity,
+                        onDelete: () {
+                          showDialogDeleteEntity(
+                            () => _onDelete(entity),
+                            context,
+                            entity,
+                          );
+                        },
+                      );
                     },
                   ),
           ),
@@ -221,4 +246,86 @@ class _EntityScreenState extends State<EntityScreen> {
       ),
     );
   }
+}
+
+void showDialogDeleteEntity(
+    VoidCallback onPressed, BuildContext context, Entity entity) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Theme.of(context).colorScheme.secondary,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      title: Text(
+        "Eliminar entidad",
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      content: Text(
+        "¿Desea eliminar la entidad ${entity.name}?",
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onSecondary,
+          fontSize: 16,
+        ),
+      ),
+      actions: [
+        Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    Strings.cancel,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+              TextButton(
+                child: Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    Strings.delete,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                onPressed: () => {
+                  onPressed(),
+                  Navigator.pop(context),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${entity.name} fue eliminado exitosamente',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          )),
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  )
+                },
+              ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
 }
