@@ -34,3 +34,8 @@ Future<void> createEntity(Entity entity) async {
   final supabase = Supabase.instance.client;
   await supabase.from('entity').insert(entity.toJson());
 }
+
+Future<void> deleteEntity(Entity entity) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('entity').delete().eq('id', entity.id!);
+}

@@ -13,3 +13,8 @@ Future<void> createEvent(Event event) async {
   final supabase = Supabase.instance.client;
   await supabase.from('event').insert(event.toJson());
 }
+
+Future<void> deleteEvent(String entityId) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('event').delete().eq('entity_id', entityId);
+}
