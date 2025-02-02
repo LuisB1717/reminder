@@ -32,4 +32,5 @@ class Strings {
   static const String queEnt = '¿Desea agregar esta entidad?';
   static const String emptyEvent = 'No se encontraron eventos recientes.';
   static const String noAddress = 'No se especifica dirección';
+  static const String delete = 'Eliminar';
 }
