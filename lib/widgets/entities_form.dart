@@ -61,9 +61,26 @@ class FormEntityState extends State<FormEntity> {
     });
   }
 
+  DateTime adjustedEventDate(DateTime originalDate) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    DateTime adjustedDate =
+        DateTime(today.year, originalDate.month, originalDate.day);
+
+    if (adjustedDate.isBefore(today)) {
+      adjustedDate =
+          DateTime(today.year + 1, originalDate.month, originalDate.day);
+    }
+
+    return adjustedDate;
+  }
+
   void _onSave() {
     final uuid = Uuid();
     bool checkForm = false;
+
+    DateTime adjustedDate = adjustedEventDate(_dateSelect ?? DateTime.now());
 
     Entity entity = Entity(
       id: uuid.v4(),
@@ -78,7 +95,7 @@ class FormEntityState extends State<FormEntity> {
 
     Event event = Event(
       type: widget.type.toString(),
-      date: _dateSelect ?? DateTime.now(),
+      date: adjustedDate,
       entity: entity,
     );
 
