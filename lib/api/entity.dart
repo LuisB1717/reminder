@@ -39,3 +39,8 @@ Future<void> deleteEntity(Entity entity) async {
   final supabase = Supabase.instance.client;
   await supabase.from('entity').delete().eq('id', entity.id!);
 }
+
+Future<void> updateEntity(Entity entity) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('entity').update(entity.toJson()).eq('id', entity.id!);
+}
