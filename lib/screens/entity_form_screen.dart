@@ -9,7 +9,13 @@ import 'package:reminder/widgets/entities_form.dart';
 import 'package:reminder/widgets/menu.dart';
 
 class EntityFormScreen extends StatefulWidget {
-  const EntityFormScreen({super.key});
+  final Entity? entityEdit;
+  final String title;
+  const EntityFormScreen({
+    super.key,
+    required this.title,
+    this.entityEdit,
+  });
 
   @override
   State<EntityFormScreen> createState() => _EntityFormScreenState();
@@ -64,25 +70,50 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
     }
   }
 
+  void _onEdit() async {
+    try {
+      await updateEntity(entity);
+      await updateEvent(entity.id!, event.date);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+            child: Text(
+              'Error al editar la entidad',
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           Bar(
-            title: Strings.addEntity,
+            title: widget.title,
             leftIcon: IconButton(
               icon: const Icon(Icons.close),
               onPressed: () => Navigator.pop(context),
             ),
             rightIcon: IconButton(
-              icon: Icon(Icons.check,
-                  color: _isCheckForm
-                      ? Theme.of(context).colorScheme.onSecondary
-                      : Theme.of(context).hintColor),
-              onPressed:
-                  _isCheckForm ? () => _showSaveDialog(context, entity) : null,
-            ),
+                icon: Icon(Icons.check,
+                    color: _isCheckForm
+                        ? Theme.of(context).colorScheme.onSecondary
+                        : Theme.of(context).hintColor),
+                onPressed: () {
+                  if (!_isCheckForm) return;
+
+                  if (widget.entityEdit == null) {
+                    _showSaveDialog(context, entity);
+                  } else {
+                    _showSaveDialog(context, entity, isNew: false);
+                  }
+                }),
           ),
           const SizedBox(height: 12),
           Menu(
@@ -101,6 +132,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
               onPageChanged: (index) => _onItemTapped(index),
               children: [
                 FormEntity(
+                  entityToEdit: widget.entityEdit,
                   type: _selectedType,
                   onChanged: (payloadEntity, payloadEvent, check) {
                     setState(() {
@@ -118,7 +150,11 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
     );
   }
 
-  void _showSaveDialog(BuildContext context, Entity entity) {
+  void _showSaveDialog(
+    BuildContext context,
+    Entity entity, {
+    bool isNew = true,
+  }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -132,7 +168,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
             ),
           ),
           content: Text(
-            Strings.queEnt,
+            isNew ? Strings.queEnt : Strings.editEntity,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onSecondary,
@@ -161,7 +197,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                     style: TextButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary),
                     child: Text(
-                      Strings.save,
+                      isNew ? Strings.save : Strings.edit,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onPrimary,
                         fontSize: 16,
@@ -169,7 +205,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                       ),
                     ),
                     onPressed: () {
-                      _onSave();
+                      isNew ? _onSave() : _onEdit();
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },

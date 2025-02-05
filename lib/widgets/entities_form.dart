@@ -14,11 +14,13 @@ import 'package:uuid/uuid.dart';
 class FormEntity extends StatefulWidget {
   final int type;
   final Function(Entity, Event, bool) onChanged;
+  final Entity? entityToEdit;
 
   const FormEntity({
     super.key,
     required this.type,
     required this.onChanged,
+    this.entityToEdit,
   });
 
   @override
@@ -41,7 +43,22 @@ class FormEntityState extends State<FormEntity> {
   void initState() {
     super.initState();
     initializeDateFormatting('es_PE', null);
+
     _loadDistrics();
+
+    if (widget.entityToEdit != null) {
+      _nameController.text = widget.entityToEdit!.name;
+      _phoneController.text = widget.entityToEdit!.phone!;
+      _adressController.text = widget.entityToEdit!.address;
+      _dateSelect = widget.entityToEdit!.date;
+      selectedDistrict = widget.entityToEdit!.district!;
+
+      _loadTowns(selectedDistrict);
+
+      if (widget.entityToEdit!.town != null) {
+        selectedTown = widget.entityToEdit!.town!;
+      }
+    }
   }
 
   void _loadTowns(String districtId) async {
@@ -77,13 +94,20 @@ class FormEntityState extends State<FormEntity> {
   }
 
   void _onSave() {
-    final uuid = Uuid();
+    late String uuid = "";
+
+    if (widget.entityToEdit != null) {
+      uuid = widget.entityToEdit!.id!;
+    } else {
+      uuid = Uuid().v4();
+    }
+
     bool checkForm = false;
 
     DateTime adjustedDate = adjustedEventDate(_dateSelect ?? DateTime.now());
 
     Entity entity = Entity(
-      id: uuid.v4(),
+      id: uuid,
       type: widget.type.toString(),
       name: _nameController.text,
       phone: _phoneController.text,

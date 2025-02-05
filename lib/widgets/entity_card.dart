@@ -4,10 +4,12 @@ import 'package:reminder/core/entity.dart';
 class EntityCard extends StatefulWidget {
   final Entity entity;
   final Function() onDelete;
+  final Function() onEdit;
   const EntityCard({
     super.key,
     required this.entity,
     required this.onDelete,
+    required this.onEdit,
   });
 
   @override
@@ -51,11 +53,26 @@ class _EntityCardState extends State<EntityCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.entity.name,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSecondary),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.entity.name,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => widget.onEdit(),
+                    child: Icon(
+                      Icons.edit_rounded,
+                      size: 24,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 3.0),
               Text(
