@@ -18,9 +18,10 @@ Future<void> deleteEvent(String entityId) async {
   await supabase.from('event').delete().eq('entity_id', entityId);
 }
 
-Future<void> updateEvent(String entityId, DateTime date) async {
+Future<void> updateEvent(String entityId, DateTime date, String type) async {
   final supabase = Supabase.instance.client;
   await supabase.from('event').update({
     'date': date.toIso8601String(),
+    'type': type,
   }).eq('entity_id', entityId);
 }

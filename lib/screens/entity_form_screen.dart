@@ -32,6 +32,10 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
   void initState() {
     super.initState();
     _pageFormController = PageController();
+
+    if (widget.entityEdit != null) {
+      _selectedType = int.parse(widget.entityEdit!.type);
+    }
   }
 
   @override
@@ -73,7 +77,7 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
   void _onEdit() async {
     try {
       await updateEntity(entity);
-      await updateEvent(entity.id!, event.date);
+      await updateEvent(entity.id!, event.date, event.type!);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
