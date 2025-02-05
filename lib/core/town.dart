@@ -1,22 +1,24 @@
 class Town {
   int id;
-  String name;
+  String? name;
 
   Town({
     required this.id,
-    required this.name,
+    this.name,
   });
 
   factory Town.from(Map<String, dynamic> json) {
     final id = json['id'];
-    final name = json['name'].toString();
+    final name = json['name'];
     return Town(
       id: id,
-      name: name,
+      name: name ?? '',
     );
   }
+
   @override
   String toString() {
-    return name;
+    if (name == null) return '';
+    return name!;
   }
 }

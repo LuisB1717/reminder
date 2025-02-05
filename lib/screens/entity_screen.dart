@@ -125,7 +125,9 @@ class _EntityScreenState extends State<EntityScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EntityFormScreen(),
+                      builder: (context) => EntityFormScreen(
+                        title: "Agregar entidad",
+                      ),
                     ),
                   );
                 },
@@ -230,6 +232,17 @@ class _EntityScreenState extends State<EntityScreen> {
                     itemBuilder: (context, index) {
                       final entity = filteredEntities[index];
                       return EntityCard(
+                        onEdit: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EntityFormScreen(
+                                title: "Editar entidad",
+                                entityEdit: entity,
+                              ),
+                            ),
+                          ),
+                        },
                         entity: entity,
                         onDelete: () {
                           showDialogDeleteEntity(

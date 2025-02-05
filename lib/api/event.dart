@@ -5,7 +5,6 @@ Future<List<Event>> getAllEvents() async {
   final supabase = Supabase.instance.client;
   final rows = await supabase.from('event').select(' * , entity (*) ');
   final events = rows.map(Event.from).toList();
-
   return events;
 }
 
@@ -17,4 +16,12 @@ Future<void> createEvent(Event event) async {
 Future<void> deleteEvent(String entityId) async {
   final supabase = Supabase.instance.client;
   await supabase.from('event').delete().eq('entity_id', entityId);
+}
+
+Future<void> updateEvent(String entityId, DateTime date, String type) async {
+  final supabase = Supabase.instance.client;
+  await supabase.from('event').update({
+    'date': date.toIso8601String(),
+    'type': type,
+  }).eq('entity_id', entityId);
 }

@@ -1,10 +1,13 @@
+import 'package:reminder/core/district.dart';
+import 'package:reminder/core/town.dart';
+
 class Entity {
   final String? id;
   final String name;
-  final String? town;
+  final Town? town;
   final DateTime date;
   final String address;
-  final String? district;
+  final District? district;
   final String? phone;
   final String type;
 
@@ -22,11 +25,11 @@ class Entity {
   factory Entity.from(Map<String, dynamic> json) {
     final id = json['id'].toString();
     final name = json['name'];
-    final town = json['town'] is Map ? json['town']['name'] : json['town'];
+    final town = json['town'] != null ? Town.from(json['town']) : null;
     final date = DateTime.tryParse(json['date']);
     final address = json['address'];
     final district =
-        json['district'] is Map ? json['district']['name'] : json['district'];
+        json['district'] != null ? District.from(json['district']) : null;
     final phone = json['phone'];
     final type = json['type'];
 
@@ -46,11 +49,11 @@ class Entity {
     return {
       'id': id,
       'name': name,
-      'town_id': town,
+      'town_id': town?.id == null ? null : town!.id,
       'date': date.toIso8601String(),
       'address': address,
       'province_id': '1304',
-      'district_id': district,
+      'district_id': district!.id,
       'department_id': '13',
       'phone': phone,
       'type': type,
