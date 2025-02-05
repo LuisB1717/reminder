@@ -8,16 +8,17 @@ class FilterButton extends StatefulWidget {
   final bool isMutipleSelect;
   final Function? onClear;
   final List<String> initialSelected;
+  final Function()? onChangedSelected;
 
-  const FilterButton({
-    super.key,
-    required this.label,
-    required this.filters,
-    required this.onSelected,
-    this.isMutipleSelect = false,
-    this.onClear,
-    this.initialSelected = const [],
-  });
+  const FilterButton(
+      {super.key,
+      required this.label,
+      required this.filters,
+      required this.onSelected,
+      this.isMutipleSelect = false,
+      this.onClear,
+      this.initialSelected = const [],
+      this.onChangedSelected});
 
   @override
   State<FilterButton> createState() => _FilterButtonState();
@@ -65,6 +66,9 @@ class _FilterButtonState extends State<FilterButton> {
                   }
 
                   widget.onSelected(selectedFilters);
+                  if (widget.onChangedSelected != null) {
+                    widget.onChangedSelected!();
+                  }
                 });
               },
               title: widget.label,
@@ -97,8 +101,10 @@ class _FilterButtonState extends State<FilterButton> {
             Text(widget.label)
           else if (selectedFilters.length > 1)
             Text('${widget.label} (${selectedFilters.length})')
-          else if (selectedFilters.length == 1)
-            Text(districtOption.first.name),
+          else if (districtOption.isNotEmpty)
+            Text(districtOption.first.name)
+          else
+            Text(widget.label),
           Icon(
             Icons.arrow_drop_down,
             size: 20,

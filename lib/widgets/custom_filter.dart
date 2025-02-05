@@ -17,6 +17,7 @@ class CustomFilter extends StatefulWidget {
   final List<String> selectedFilters;
   final void Function(String, bool?) onChanged;
   final Function() onClear;
+  final Function()? onChangedSelected;
 
   const CustomFilter({
     super.key,
@@ -26,6 +27,7 @@ class CustomFilter extends StatefulWidget {
     required this.title,
     required this.onChanged,
     required this.onClear,
+    this.onChangedSelected,
   });
 
   @override
@@ -84,6 +86,9 @@ class CustomFilterState extends State<CustomFilter> {
                               onChanged: (bool? value) {
                                 widget.onChanged(filter.id, value!);
                                 setState(() {});
+                                if (widget.onChangedSelected != null) {
+                                  widget.onChangedSelected!();
+                                }
                               },
                             );
                           }
@@ -104,6 +109,9 @@ class CustomFilterState extends State<CustomFilter> {
                               widget.onChanged(filter.id, null);
                               Navigator.of(context).pop([]);
                               setState(() {});
+                              if (widget.onChangedSelected != null) {
+                                widget.onChangedSelected!();
+                              }
                             },
                           );
                         }).toList(),
