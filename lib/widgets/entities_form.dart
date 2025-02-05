@@ -51,12 +51,12 @@ class FormEntityState extends State<FormEntity> {
       _phoneController.text = widget.entityToEdit!.phone!;
       _adressController.text = widget.entityToEdit!.address;
       _dateSelect = widget.entityToEdit!.date;
-      selectedDistrict = widget.entityToEdit!.district!;
+      selectedDistrict = widget.entityToEdit!.district!.id;
 
       _loadTowns(selectedDistrict);
 
       if (widget.entityToEdit!.town != null) {
-        selectedTown = widget.entityToEdit!.town!;
+        selectedTown = widget.entityToEdit!.town!.id.toString();
       }
     }
   }
@@ -94,15 +94,21 @@ class FormEntityState extends State<FormEntity> {
   }
 
   void _onSave() {
+    bool checkForm = false;
     late String uuid = "";
+    Town? town;
+
+    if (selectedTown.isNotEmpty) {
+      town = Town(id: int.parse(selectedTown));
+    } else {
+      town = null;
+    }
 
     if (widget.entityToEdit != null) {
       uuid = widget.entityToEdit!.id!;
     } else {
       uuid = Uuid().v4();
     }
-
-    bool checkForm = false;
 
     DateTime adjustedDate = adjustedEventDate(_dateSelect ?? DateTime.now());
 
@@ -112,8 +118,8 @@ class FormEntityState extends State<FormEntity> {
       name: _nameController.text,
       phone: _phoneController.text,
       address: _adressController.text,
-      district: selectedDistrict,
-      town: selectedTown.isEmpty ? null : selectedTown,
+      district: District(id: selectedDistrict),
+      town: town,
       date: _dateSelect ?? DateTime.now(),
     );
 
@@ -125,7 +131,7 @@ class FormEntityState extends State<FormEntity> {
 
     if (entity.name.isNotEmpty &&
         entity.address.isNotEmpty &&
-        entity.district!.isNotEmpty) {
+        entity.district!.id.isNotEmpty) {
       checkForm = true;
     } else {
       checkForm = false;
@@ -243,6 +249,7 @@ class FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 12.0),
             FilterButton(
+              onChangedSelected: () => _onSave(),
               onSelected: (selected) {
                 setState(() {
                   selectedDistrict = selected.first;
@@ -257,6 +264,7 @@ class FormEntityState extends State<FormEntity> {
             ),
             SizedBox(height: 8.0),
             FilterButton(
+              onChangedSelected: () => _onSave(),
               onSelected: (selected) {
                 setState(() {
                   selectedTown = selected.first;

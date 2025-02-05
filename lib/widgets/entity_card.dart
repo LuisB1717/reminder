@@ -97,9 +97,9 @@ class _EntityCardState extends State<EntityCard> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    widget.entity.town == null
-                        ? widget.entity.district.toString()
-                        : '${widget.entity.town}, ${widget.entity.district}',
+                    widget.entity.town?.name != null
+                        ? '${widget.entity.town!.name}, ${widget.entity.district!.name}'
+                        : widget.entity.district?.name ?? 'Sin Distrito',
                     style: TextStyle(
                       fontSize: 14,
                       color: Theme.of(context).colorScheme.primary,

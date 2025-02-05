@@ -1,10 +1,10 @@
 class District {
   final String id;
-  final String name;
+  final String? name;
 
   District({
     required this.id,
-    required this.name,
+    this.name,
   });
 
   factory District.from(Map<String, dynamic> json) {
@@ -19,6 +19,7 @@ class District {
 
   @override
   String toString() {
-    return name;
+    if (name == null) return '';
+    return name!;
   }
 }
