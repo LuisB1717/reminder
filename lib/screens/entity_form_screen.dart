@@ -210,6 +210,19 @@ class _EntityFormScreenState extends State<EntityFormScreen> {
                     ),
                     onPressed: () {
                       isNew ? _onSave() : _onEdit();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                              isNew ? Strings.successSave : Strings.successEdit,
+                              style: TextStyle(
+                                color:
+                                    Theme.of(context).colorScheme.onSecondary,
+                              )),
+                          backgroundColor:
+                              Theme.of(context).colorScheme.secondary,
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },

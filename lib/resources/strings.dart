@@ -35,4 +35,6 @@ class Strings {
   static const String noAddress = 'No se especifica dirección';
   static const String delete = 'Eliminar';
   static const String edit = 'Editar';
+  static const String successSave = 'Entidad guardada correctamente.';
+  static const String successEdit = 'Entidad editada correctamente.';
 }
