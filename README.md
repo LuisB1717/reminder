@@ -38,8 +38,6 @@ Los recordatorios se guardan en la nube y las **notificaciones se envían desde 
   - `supabase_flutter`
   - `provider`
   - `path_provider`
-  - `firebase_messaging` *(u otro si usaste FCM para recibir las notificaciones)*  
-
 ---
 
 ## 🚀 Instalación
